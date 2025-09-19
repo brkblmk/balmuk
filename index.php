@@ -55,6 +55,11 @@ try {
     $stmt->execute();
     $testimonials = $stmt->fetchAll();
 
+    // FAQs
+    $stmt = $pdo->prepare("SELECT question, answer, category FROM faqs WHERE is_active = 1 ORDER BY sort_order ASC LIMIT 8");
+    $stmt->execute();
+    $faqs = $stmt->fetchAll();
+
     // Sayfa render işlemini logla
     error_log("Homepage rendered successfully - " . date('Y-m-d H:i:s'));
 
@@ -83,6 +88,7 @@ try {
     $featured_services = [];
     $stats = [];
     $testimonials = [];
+    $faqs = [];
 }
 
 SecurityUtils::generateCSRFToken();
@@ -216,14 +222,14 @@ include 'includes/site-head.php';
                     <?php foreach ($campaigns as $index => $campaign): ?>
                     <div class="col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo ($index + 1) * 100; ?>" role="listitem">
                         <div class="campaign-card p-4">
-                            <span class="campaign-badge" aria-label="Kampanya etiketi: <?php echo htmlspecialchars($campaign['badge'] ?? ''); ?>"><?php echo htmlspecialchars($campaign['badge'] ?? ''); ?></span>
+                            <span class="campaign-badge badge bg-<?php echo htmlspecialchars($campaign['badge_color'] ?? 'warning'); ?>" aria-label="Kampanya etiketi: <?php echo htmlspecialchars($campaign['badge_text'] ?? ''); ?>"><?php echo htmlspecialchars($campaign['badge_text'] ?? ''); ?></span>
                             <div class="text-center mb-3">
                                 <i class="<?php echo htmlspecialchars($campaign['icon'] ?? 'bi-star-fill'); ?>" style="font-size: 3rem; color: var(--prime-gold);" aria-hidden="true"></i>
                             </div>
                             <h3 class="h4 mb-2"><?php echo htmlspecialchars($campaign['title'] ?? ''); ?></h3>
                             <p class="text-primary fw-bold mb-3"><?php echo htmlspecialchars($campaign['discount_text'] ?? ''); ?></p>
                             <p class="text-muted"><?php echo htmlspecialchars($campaign['description'] ?? ''); ?></p>
-                            <button class="btn btn-prime w-100 mt-3" aria-label="<?php echo htmlspecialchars($campaign['title'] ?? ''); ?> kampanyası için hemen rezervasyon yapın">Hemen Rezerve Et</button>
+                            <a href="<?php echo htmlspecialchars($campaign['button_link'] ?? '#reservation'); ?>" class="btn btn-prime w-100 mt-3" aria-label="<?php echo htmlspecialchars($campaign['title'] ?? ''); ?> kampanyası için hemen rezervasyon yapın"><?php echo htmlspecialchars($campaign['button_text'] ?? 'Hemen Rezerve Et'); ?></a>
                         </div>
                     </div>
                     <?php endforeach; ?>
@@ -601,58 +607,94 @@ include 'includes/site-head.php';
         </div>
     </section>
 
+    <?php if (!empty($faqs)): ?>
+    <section id="faq" class="prime-section faq-section futuristic-gradient">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <div class="faq-intro-card">
+                        <span class="badge rounded-pill bg-warning text-dark mb-3"><i class="bi bi-stars me-1"></i> Sık Sorulan Sorular</span>
+                        <h2 class="display-5 fw-bold text-white mb-3">Prime EMS Teknolojisi Hakkında Merak Ettikleriniz</h2>
+                        <p class="lead text-white-50">Bilimsel WB-EMS yaklaşımımız, kişiye özel programlarımız ve üyelik süreçlerimiz hakkında en çok sorulan soruları yanıtladık.</p>
+                        <ul class="list-unstyled text-white-50 mt-4">
+                            <li class="d-flex align-items-center mb-3"><i class="bi bi-cpu me-2 text-warning"></i>Yapay zekâ destekli antrenman planlaması</li>
+                            <li class="d-flex align-items-center mb-3"><i class="bi bi-activity me-2 text-warning"></i>24 elektrotlu i-motion & i-model entegrasyonu</li>
+                            <li class="d-flex align-items-center"><i class="bi bi-shield-check me-2 text-warning"></i>CE sertifikalı medikal güvenlik protokolleri</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="accordion accordion-flush neon-accordion" id="faqAccordion">
+                        <?php foreach ($faqs as $index => $faq): ?>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq-heading-<?php echo $index; ?>">
+                                <button class="accordion-button <?php echo $index !== 0 ? 'collapsed' : ''; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#faq-item-<?php echo $index; ?>" aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-controls="faq-item-<?php echo $index; ?>">
+                                    <div>
+                                        <span class="faq-category badge bg-primary-subtle text-primary me-2"><?php echo htmlspecialchars($faq['category'] ?? 'Genel'); ?></span>
+                                        <?php echo htmlspecialchars($faq['question']); ?>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="faq-item-<?php echo $index; ?>" class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>" aria-labelledby="faq-heading-<?php echo $index; ?>" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <?php echo nl2br(htmlspecialchars($faq['answer'])); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
+
     <!-- Contact Section -->
     <section id="contact" class="prime-section prime-section-dark">
         <div class="container">
-            <div class="text-center mb-5" data-aos="fade-up">
+            <div class="text-center mb-4" data-aos="fade-up">
                 <h2 class="display-5 fw-bold text-white">İletişim</h2>
                 <p class="lead" style="color: var(--prime-gold);">Hemen iletişime geçin, ücretsiz keşif seansınızı planlayalım</p>
             </div>
-            
-            <div class="row g-4">
+
+            <div class="row g-2">
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
                     <div class="text-center text-white">
-                        <i class="bi bi-geo-alt-fill" style="font-size: 3rem; color: var(--prime-gold);"></i>
-                        <h4 class="mt-3">Adres</h4>
-                        <p><?php echo nl2br(htmlspecialchars($contact['address'])); ?></p>
-                        <!-- Google Maps Entegrasyonu -->
-                        <div class="mt-3">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3126.234567890123!2d27.15234567890123!3d38.45678901234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14b9b9c9c9c9c9c9%3A0x9c9c9c9c9c9c9c9c!2sBal%C3%A7ova%2C+%C4%B0zmir!5e0!3m2!1str!2str!4v1698745678901!5m2!1str!2str"
-                                    width="100%" height="200" style="border:0; border-radius: 10px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                            </iframe>
-                        </div>
+                        <i class="bi bi-geo-alt-fill" style="font-size: 2rem; color: var(--prime-gold);"></i>
+                        <h6 class="mt-1 mb-2">Adres</h6>
+                        <p class="small mb-0"><?php echo nl2br(htmlspecialchars($contact['address'])); ?></p>
                     </div>
                 </div>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
                     <div class="text-center text-white">
-                        <i class="bi bi-telephone-fill" style="font-size: 3rem; color: var(--prime-gold);"></i>
-                        <h4 class="mt-3">Telefon</h4>
-                        <p><?php echo htmlspecialchars($contact['phone']); ?><br><?php echo htmlspecialchars($contact['whatsapp']); ?></p>
+                        <i class="bi bi-telephone-fill" style="font-size: 2rem; color: var(--prime-gold);"></i>
+                        <h6 class="mt-1 mb-2">Telefon</h6>
+                        <p class="small mb-0"><?php echo htmlspecialchars($contact['phone']); ?><br><span class="text-success">WhatsApp: <?php echo htmlspecialchars($contact['whatsapp']); ?></span></p>
                     </div>
                 </div>
                 <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
                     <div class="text-center text-white">
-                        <i class="bi bi-clock-fill" style="font-size: 3rem; color: var(--prime-gold);"></i>
-                        <h4 class="mt-3">Çalışma Saatleri</h4>
-                        <p>Pazartesi - Cumartesi: <?php echo htmlspecialchars($contact['working_hours_weekday']); ?><br>Pazar: <?php echo htmlspecialchars($contact['working_hours_weekend']); ?></p>
+                        <i class="bi bi-clock-fill" style="font-size: 2rem; color: var(--prime-gold);"></i>
+                        <h6 class="mt-1 mb-2">Çalışma Saatleri</h6>
+                        <p class="small mb-0">Pzt-Cmt: <?php echo htmlspecialchars($contact['working_hours_weekday']); ?><br>Pazar: <?php echo htmlspecialchars($contact['working_hours_weekend']); ?></p>
                     </div>
                 </div>
             </div>
             
-            <div class="row mt-5">
+            <div class="row mt-4">
                 <!-- Quick Contact -->
-                <div class="col-lg-6 mb-4" data-aos="fade-up">
+                <div class="col-lg-6 mb-3" data-aos="fade-up">
                     <div class="text-center">
-                        <h3 class="text-white mb-4">Hızlı İletişim</h3>
-                        <div class="d-grid gap-3">
-                            <a href="https://wa.me/<?php echo str_replace('+', '', $contact['whatsapp']); ?>" class="btn btn-success btn-lg">
-                                <i class="bi bi-whatsapp me-2"></i> WhatsApp'tan Yaz
+                        <h5 class="text-white mb-3">Hızlı İletişim</h5>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <a href="https://wa.me/<?php echo str_replace('+', '', $contact['whatsapp']); ?>" class="btn btn-success btn-sm">
+                                <i class="bi bi-whatsapp me-1"></i> WhatsApp
                             </a>
-                            <a href="tel:<?php echo $contact['phone']; ?>" class="btn btn-prime btn-lg">
-                                <i class="bi bi-telephone me-2"></i> Hemen Ara
+                            <a href="tel:<?php echo $contact['phone']; ?>" class="btn btn-prime btn-sm">
+                                <i class="bi bi-telephone me-1"></i> Ara
                             </a>
-                            <a href="mailto:<?php echo $contact['email']; ?>" class="btn btn-outline-light btn-lg">
-                                <i class="bi bi-envelope me-2"></i> E-posta Gönder
+                            <a href="mailto:<?php echo $contact['email']; ?>" class="btn btn-outline-light btn-sm">
+                                <i class="bi bi-envelope me-1"></i> E-posta
                             </a>
                         </div>
                     </div>
@@ -661,7 +703,7 @@ include 'includes/site-head.php';
                 <!-- Contact Form -->
                 <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
                     <div class="contact-form-wrapper">
-                        <h3 class="text-white mb-4">Mesaj Gönder</h3>
+                        <h5 class="text-white mb-3">Mesaj Gönder</h5>
                         <form id="contactForm" class="contact-form">
                             <?php
                             // Ensure session is started for CSRF token
@@ -671,29 +713,29 @@ include 'includes/site-head.php';
                             ?>
                             <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? ''; ?>">
                             <input type="hidden" name="website" style="display:none;"> <!-- Honeypot -->
-                            
-                            <div class="mb-3">
-                                <label for="name" class="form-label text-white">Ad Soyad *</label>
-                                <input type="text" class="form-control" id="name" name="name" required maxlength="100">
+
+                            <div class="mb-1">
+                                <label for="name" class="form-label text-white small">Ad Soyad *</label>
+                                <input type="text" class="form-control form-control-sm" id="name" name="name" required maxlength="100">
                                 <div class="invalid-feedback"></div>
                             </div>
-                            
-                            <div class="row mb-3">
+
+                            <div class="row mb-1">
                                 <div class="col-md-6">
-                                    <label for="email" class="form-label text-white">E-posta *</label>
-                                    <input type="email" class="form-control" id="email" name="email" required maxlength="150">
+                                    <label for="email" class="form-label text-white small">E-posta *</label>
+                                    <input type="email" class="form-control form-control-sm" id="email" name="email" required maxlength="150">
                                     <div class="invalid-feedback"></div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="phone" class="form-label text-white">Telefon</label>
-                                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="0532 XXX XX XX">
+                                    <label for="phone" class="form-label text-white small">Telefon</label>
+                                    <input type="tel" class="form-control form-control-sm" id="phone" name="phone" placeholder="0532 XXX XX XX">
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <label for="subject" class="form-label text-white">Konu *</label>
-                                <select class="form-select" id="subject" name="subject" required>
+
+                            <div class="mb-1">
+                                <label for="subject" class="form-label text-white small">Konu</label>
+                                <select class="form-select form-select-sm" id="subject" name="subject">
                                     <option value="">Konu Seçin</option>
                                     <option value="Ücretsiz Keşif Seansı">Ücretsiz Keşif Seansı</option>
                                     <option value="Randevu Talebi">Randevu Talebi</option>
@@ -704,28 +746,28 @@ include 'includes/site-head.php';
                                 </select>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            
-                            <div class="mb-3">
-                                <label for="message" class="form-label text-white">Mesajınız *</label>
-                                <textarea class="form-control" id="message" name="message" rows="4" required minlength="10" maxlength="2000" placeholder="Mesajınızı buraya yazın..."></textarea>
-                                <div class="form-text text-light"><span id="charCount">0</span>/2000 karakter</div>
+
+                            <div class="mb-1">
+                                <label for="message" class="form-label text-white small">Mesajınız *</label>
+                                <textarea class="form-control form-control-sm" id="message" name="message" rows="3" required minlength="5" maxlength="1000" placeholder="Mesajınızı buraya yazın..."></textarea>
+                                <div class="form-text text-light small"><span id="charCount">0</span>/1000 karakter</div>
                                 <div class="invalid-feedback"></div>
                             </div>
-                            
+
                             <div class="mb-3">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="privacy" required>
-                                    <label class="form-check-label text-white" for="privacy">
-                                        <a href="#" class="text-decoration-none" style="color: var(--prime-gold);">Kişisel Verilerin Korunması</a> kapsamında bilgilerimin işlenmesini kabul ediyorum. *
+                                    <label class="form-check-label text-white small" for="privacy">
+                                        <a href="#" class="text-decoration-none" style="color: var(--prime-gold);">KVKK</a> kabul ediyorum. *
                                     </label>
                                     <div class="invalid-feedback"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-prime btn-lg" id="submitBtn">
+                                <button type="submit" class="btn btn-prime btn-sm" id="submitBtn">
                                     <span class="submit-text">
-                                        <i class="bi bi-send me-2"></i>Mesajı Gönder
+                                        <i class="bi bi-send me-2"></i>Gönder
                                     </span>
                                     <span class="loading-text d-none">
                                         <i class="bi bi-arrow-repeat spin me-2"></i>Gönderiliyor...
@@ -937,12 +979,12 @@ include 'includes/site-head.php';
                     messageTextarea.addEventListener('input', function () {
                         charCount.textContent = this.value.length;
 
-                        if (this.value.length > 2000) {
+                        if (this.value.length > 1000) {
                             this.classList.add('is-invalid');
-                            this.setCustomValidity('Mesaj 2000 karakterden uzun olamaz.');
-                        } else if (this.value.length < 10 && this.value.length > 0) {
+                            this.setCustomValidity('Mesaj 1000 karakterden uzun olamaz.');
+                        } else if (this.value.length < 5 && this.value.length > 0) {
                             this.classList.add('is-invalid');
-                            this.setCustomValidity('Mesaj en az 10 karakter olmalıdır.');
+                            this.setCustomValidity('Mesaj en az 5 karakter olmalıdır.');
                         } else {
                             this.classList.remove('is-invalid');
                             this.setCustomValidity('');
