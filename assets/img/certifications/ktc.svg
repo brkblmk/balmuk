@@ -1,0 +1,9 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#003876" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">KTC</text>
+    <circle cx="60" cy="50" r="15" stroke="#FFD700" stroke-width="2" fill="none"/>
+    <text x="60" y="55" font-family="Arial, sans-serif" font-size="10" fill="#FFD700" text-anchor="middle">Korea</text>
+    <text x="60" y="75" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Korea Testing</text>
+    <text x="60" y="90" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Certification</text>
+    <text x="60" y="105" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">Since 1970</text>
+</svg>

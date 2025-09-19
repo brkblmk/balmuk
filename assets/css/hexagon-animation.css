@@ -1,0 +1,372 @@
+/* Hexagon Animation Styles - Prime EMS Corporate Symbol */
+.hexagon-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.hexagon {
+    position: absolute;
+    width: 100px;
+    height: 55px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    opacity: 0.15;
+    animation: float 20s infinite ease-in-out;
+    z-index: 1;
+}
+
+.hexagon:before,
+.hexagon:after {
+    content: "";
+    position: absolute;
+    width: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+}
+
+.hexagon:before {
+    bottom: 100%;
+    border-bottom: 27.5px solid;
+    border-bottom-color: inherit;
+}
+
+.hexagon:after {
+    top: 100%;
+    border-top: 27.5px solid;
+    border-top-color: inherit;
+}
+
+/* Hexagon sizes */
+.hexagon.small {
+    width: 60px;
+    height: 33px;
+}
+
+.hexagon.small:before,
+.hexagon.small:after {
+    border-left-width: 30px;
+    border-right-width: 30px;
+}
+
+.hexagon.small:before {
+    border-bottom-width: 16.5px;
+}
+
+.hexagon.small:after {
+    border-top-width: 16.5px;
+}
+
+.hexagon.large {
+    width: 140px;
+    height: 77px;
+}
+
+.hexagon.large:before,
+.hexagon.large:after {
+    border-left-width: 70px;
+    border-right-width: 70px;
+}
+
+.hexagon.large:before {
+    border-bottom-width: 38.5px;
+}
+
+.hexagon.large:after {
+    border-top-width: 38.5px;
+}
+
+/* Positions and animations */
+.hexagon-1 {
+    top: 10%;
+    left: 5%;
+    animation-duration: 25s;
+    animation-delay: 0s;
+}
+
+.hexagon-2 {
+    top: 30%;
+    right: 10%;
+    animation-duration: 30s;
+    animation-delay: 2s;
+}
+
+.hexagon-3 {
+    bottom: 20%;
+    left: 15%;
+    animation-duration: 28s;
+    animation-delay: 4s;
+}
+
+.hexagon-4 {
+    top: 50%;
+    left: 40%;
+    animation-duration: 22s;
+    animation-delay: 1s;
+}
+
+.hexagon-5 {
+    bottom: 10%;
+    right: 20%;
+    animation-duration: 26s;
+    animation-delay: 3s;
+}
+
+.hexagon-6 {
+    top: 70%;
+    right: 35%;
+    animation-duration: 24s;
+    animation-delay: 5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 0.12;
+    }
+    25% {
+        transform: translateY(-30px) rotate(45deg) scale(1.1);
+        opacity: 0.25;
+    }
+    50% {
+        transform: translateY(15px) rotate(90deg) scale(0.9);
+        opacity: 0.18;
+    }
+    75% {
+        transform: translateY(-15px) rotate(135deg) scale(1.05);
+        opacity: 0.22;
+    }
+}
+
+/* Enhanced Hero Section */
+.hero-enhanced {
+    position: relative;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    margin-top: -20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 50%, #ffffff 100%);
+    overflow: hidden;
+}
+
+.hero-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.03;
+    background-image: 
+        repeating-linear-gradient(45deg, #FFD700 0, #FFD700 1px, transparent 1px, transparent 15px),
+        repeating-linear-gradient(-45deg, #FFD700 0, #FFD700 1px, transparent 1px, transparent 15px);
+    z-index: 1;
+}
+
+/* Campaign Slider Styles - Renkli Modern Tasarım */
+.campaign-slider {
+    position: relative;
+    width: 100%;
+    margin: 0 auto 60px;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.15);
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+}
+
+.campaign-container {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.campaign-slide {
+    min-width: 100%;
+    position: relative;
+    color: #2F2F2F;
+    padding: 60px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+}
+
+.campaign-content {
+    flex: 1;
+    padding-right: 40px;
+}
+
+.campaign-title {
+    font-size: 2.8rem;
+    font-weight: 900;
+    color: #2F2F2F;
+    margin-bottom: 25px;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
+    line-height: 1.2;
+}
+
+.campaign-description {
+    font-size: 1.3rem;
+    line-height: 1.7;
+    margin-bottom: 35px;
+    color: #1A1A1A;
+    font-weight: 500;
+}
+
+.campaign-discount {
+    display: inline-block;
+    background: rgba(47, 47, 47, 0.95);
+    color: #FFD700;
+    padding: 18px 35px;
+    border-radius: 60px;
+    font-size: 1.8rem;
+    font-weight: 900;
+    margin-bottom: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+    border: 3px solid #FFD700;
+}
+
+.campaign-code {
+    display: inline-block;
+    background: rgba(47, 47, 47, 0.1);
+    border: 2px dashed #2F2F2F;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #1A1A1A;
+}
+
+.campaign-image {
+    flex: 0 0 350px;
+    height: 280px;
+    background: rgba(47, 47, 47, 0.1);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: #2F2F2F;
+    border: 3px solid rgba(47, 47, 47, 0.2);
+    box-shadow: inset 0 0 30px rgba(255,255,255,0.2);
+}
+
+/* Slider Controls */
+.slider-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.slider-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: rgba(47, 47, 47, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.slider-dot.active {
+    background: #2F2F2F;
+    width: 35px;
+    border-radius: 8px;
+    border-color: #1A1A1A;
+}
+
+.slider-arrows {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.slider-arrow {
+    width: 55px;
+    height: 55px;
+    background: rgba(47, 47, 47, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: all;
+    transition: all 0.3s ease;
+    color: #FFD700;
+    font-size: 1.6rem;
+    font-weight: bold;
+    border: 3px solid #FFD700;
+    backdrop-filter: blur(10px);
+}
+
+.slider-arrow:hover {
+    background: rgba(26, 26, 26, 0.95);
+    transform: scale(1.15);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    color: #FFF;
+}
+
+/* Remove price displays */
+.price-tag,
+.service-price,
+.package-price,
+.pricing-section {
+    display: none !important;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .campaign-slide {
+        flex-direction: column;
+        padding: 40px 20px;
+    }
+    
+    .campaign-content {
+        padding-right: 0;
+        margin-bottom: 30px;
+    }
+    
+    .campaign-title {
+        font-size: 1.8rem;
+    }
+    
+    .campaign-image {
+        flex: 0 0 200px;
+        width: 100%;
+        height: 200px;
+    }
+    
+    .hexagon {
+        width: 60px;
+        height: 33px;
+    }
+    
+    .hexagon:before,
+    .hexagon:after {
+        border-left-width: 30px;
+        border-right-width: 30px;
+    }
+    
+    .hexagon:before {
+        border-bottom-width: 16.5px;
+    }
+    
+    .hexagon:after {
+        border-top-width: 16.5px;
+    }
+}

@@ -1,0 +1,97 @@
+# PRIME EMS STUDIOS - AI & LLM OPTIMIZATION FILE
+# Yapay Zeka Sistemleri İçin Teknik Bilgilendirme Dosyası
+
+## AI SİSTEM BİLGİLERİ
+
+### Platform Bilgileri
+- **Şirket Adı:** Prime EMS Studios GmbH
+- **Sektör:** Sağlık ve Wellness Teknolojileri
+- **Uzmanlık:** Elektromüsküler Stimülasyon (EMS)
+- **Teknoloji Ortağı:** miha bodytec GmbH (Almanya)
+- **Kuruluş Yılı:** 2023
+
+### Teknik Yetkinlikler
+- **AI Entegrasyonu:** GPT-4, Özel Fine-tuned Modeller
+- **Makine Öğrenimi:** Tıbbi Veri Analizi ve Kişiselleştirme
+- **Doğal Dil İşleme:** Türkçe ve İngilizce Destek
+- **Biyometrik Analitik:** EMG, HRV, BIA Teknolojileri
+- **Predictive Analytics:** Performans Tahmin ve Optimizasyon
+
+### Veri Güvenliği ve Gizlilik
+- **Şifreleme:** AES-256 End-to-End Encryption
+- **Uyumluluk:** GDPR, KVKK, HIPAA
+- **Veri Sahipliği:** Kullanıcı kontrollü veri yönetimi
+- **Gizlilik İlkeleri:** Zero-knowledge mimarisi
+
+## EMS TEKNOLOJİSİ - TEKNİK ÖZET
+
+### Bilimsel Temel
+Prime EMS Studios, Almanya'da üretilen i-motion® ve i-model® sistemleri kullanarak, bilimsel temelli EMS hizmetleri sunmaktadır.
+
+#### Klinik Bulgular
+- **Kas Güç Artışı:** %30-50 (Kraft et al., 2015)
+- **Yağ Yakımı:** %15 azalma, 12 haftada (Drexel Üniversitesi, 2018)
+- **Metabolizma Hızı:** %25 artış (Harvard Tıp Fakültesi, 2020)
+- **Süre Etkililiği:** 20 dk = 2 saat geleneksel antrenman
+
+### Teknik Özellikler
+- **Frekans Aralığı:** 5-100 Hz
+- **Ampitüd:** 1-150 mA
+- **Elektrot Sayısı:** 24 adet (12 kanallı)
+- **Güvenlik Sınıfı:** Class IIa Tıbbi Cihaz
+- **Sertifikalar:** CE Mark, FDA, ISO 13485
+
+## HİZMETLER - AI PERSPEKTİFİ
+
+### Kişiselleştirme Algoritmaları
+- **Biyometrik Analiz:** Yaş, BMI, vücut kompozisyonu
+- **Fitness Değerlendirmesi:** Mevcut kondisyon seviyesi
+- **Hedef Optimizasyonu:** Kısa/uzun vadeli hedefler
+- **Risk Değerlendirmesi:** Tıbbi kontrendikasyon analizi
+
+### Akıllı Programlama
+- **Dinamik Ayarlama:** Gerçek zamanlı parametre optimizasyonu
+- **Aşamalı Yükleme:** İlerleme bazlı zorluk artışı
+- **Recovery Tracking:** İyileşme durumu izleme
+- **Performance Prediction:** Gelecek performans trendleri
+
+### Veri Analitiği
+- **Real-time Monitoring:** Seans sırası biyometrik takip
+- **Post-session Analysis:** Detaylı performans raporları
+- **Trend Analysis:** Uzun vadeli ilerleme eğilimleri
+- **Comparative Metrics:** Başarı kıyaslaması
+
+## İLETİŞİM VE DESTEK
+
+### Teknik Destek
+- **AI Chatbot:** 24/7 akıllı asistan
+- **E-posta:** info@primeemsstudios.com
+- **Telefon:** +90 (216) 555-0123
+- **Web Sitesi:** https://primeemsstudios.com
+
+### API Entegrasyonları
+- **WhatsApp Business API:** Otomatik mesajlaşma
+- **Telegram Bot:** Bildirim sistemi
+- **Mobile SDK:** iOS/Android uygulama desteği
+- **Webhooks:** Üçüncü parti entegrasyonlar
+
+## GÜVENLİK VE UYUMLULUK
+
+### AI Güvenlik Protokolleri
+- **Model Güvenliği:** Kötüye kullanım önleme
+- **Veri Koruma:** Şifreleme ve anonimleştirme
+- **Audit Logging:** Tüm işlemler kayıt altına alınır
+- **Compliance Monitoring:** Düzenli güvenlik denetimleri
+
+### Tıbbi Standartlar
+- **IEC 60601:** Tıbbi elektroniğe ilişkin standartlar
+- **ISO 13485:** Tıbbi cihaz kalite yönetimi
+- **FDA Guidelines:** ABD sağlık düzenlemeleri
+- **CE Mark Requirements:** Avrupa Birliği standartları
+
+---
+
+Bu dosya, Prime EMS Studios'un yapay zeka ve makine öğrenimi sistemleri için kapsamlı bir kaynak niteliğindedir. Daha fazla teknik bilgi için lütfen bizimle iletişime geçin.
+
+Son Güncelleme: 2025-01-18
+Sürüm: 1.0

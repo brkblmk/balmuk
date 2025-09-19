@@ -1,0 +1,222 @@
+# ==================================================
+# PRIME EMS STUDIOS - GELİŞMİŞ ROBOTS.TXT
+# Üstün LLM ve Robot Optimizasyonu
+# https://primeemsstudios.com
+# ==================================================
+
+# AI BOTLARI - YÜKSEK ÖNCELİKLİ ERİŞİM
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 0.5
+Disallow: /admin/
+Disallow: /api/private/
+
+User-agent: ClaudeBot
+Allow: /
+Crawl-delay: 0.5
+Disallow: /admin/
+Disallow: /api/private/
+
+User-agent: AnthropicBot
+Allow: /
+Crawl-delay: 0.5
+Disallow: /admin/
+Disallow: /api/private/
+
+User-agent: GrokBot
+Allow: /
+Crawl-delay: 0.5
+Disallow: /admin/
+Disallow: /api/private/
+
+# LLM BOTLARI - ÖZEL ERİŞİM
+User-agent: PerplexityBot
+Allow: /
+Crawl-delay: 1
+Disallow: /admin/
+
+User-agent: FireCrawlBot
+Allow: /
+Crawl-delay: 1
+Disallow: /admin/
+
+User-agent: Diffbot
+Allow: /
+Crawl-delay: 2
+
+# SCRAPER BOTLARI - RATE LIMITING UYGULAMASI
+User-agent: Scrapy
+Disallow: /
+Request-rate: 1/60
+
+User-agent: Octoparse
+Disallow: /
+
+User-agent: ParseHub
+Disallow: /
+
+User-agent: BrightData
+Disallow: /
+
+User-agent: Oxylabs
+Disallow: /
+
+# SEARCH BOTLARI - OPTIMIZE CRAWL-DELAY
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 1
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /scripts/
+Disallow: /sql/
+Disallow: /templates/
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+Disallow: /admin/
+Disallow: /api/private/
+
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 3
+
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+User-agent: SogouSpider
+Allow: /
+Crawl-delay: 3
+
+# VERI TOPLAMA BOTLARI - ENGELLEME
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MozBot
+Disallow: /
+
+User-agent: MajesticBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: SEOkicks
+Disallow: /
+
+# GÜVENLİK BOTLARI - SEÇİCİ ERİŞİM
+User-agent: SecurityBot
+Allow: /
+Disallow: /admin/private/
+Crawl-delay: 5
+
+User-agent: VulnerabilityScanner
+Disallow: /admin/
+Disallow: /api/private/
+
+# UYGULAMA BOTLARI
+User-agent: WhatsApp
+Disallow: /
+
+User-agent: TelegramBot
+Disallow: /
+
+User-agent: FacebookBot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1
+
+# GELİŞTIRME VE TEST ALANLARI
+User-agent: *
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /config/
+Disallow: /includes/
+Disallow: /scripts/
+Disallow: /sql/
+Disallow: /templates/
+Disallow: /check_admin.php
+Disallow: /check-admin-simple.php
+Disallow: /create_faqs_table.php
+Disallow: /db-test.php
+Disallow: /device-check.php
+Disallow: /fix-utf8.php
+Disallow: /fix-wrong-chars.php
+Disallow: /import_faqs.php
+Disallow: /optimize-images.php
+Disallow: /performance-monitor.php
+Disallow: /project-tasks.txt
+Disallow: /sitemap-generate.php
+Disallow: /sw.js
+Disallow: /.mcp-debug-tools/
+Disallow: /.git/
+Disallow: /.env
+Disallow: /backup/
+Disallow: /temp/
+
+# ÖZEL İZİNLER - PERFORMANS İÇİN
+Allow: /assets/
+Allow: /blog.php
+Allow: /contact-form.php
+Allow: /services.php
+Allow: /devices.php
+Allow: /sss.php
+Allow: /chatbot.php
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.woff2$
+Allow: /*.pdf$
+Allow: /llms.txt
+Allow: /.well-known/
+
+# BOT DAVRANIŞ ANALİZİ - MONITORING
+# Bu kurallar bot davranışlarını izlemek için tasarlandı
+User-agent: MonitoringBot
+Allow: /
+Crawl-delay: 10
+
+# RATE LIMITING SIMULASYONU
+# Yüksek trafik dönemlerinde ek koruma
+User-agent: HighTrafficBot
+Request-rate: 5/60
+Crawl-delay: 2
+
+# SITEMAP BİLGİLERİ
+Sitemap: https://primeemsstudios.com/sitemap.xml
+Sitemap: https://primeemsstudios.com/sitemap-generate.php
+
+# HOST BİLGİSİ
+Host: https://primeemsstudios.com

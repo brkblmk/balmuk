@@ -1,0 +1,10 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#009639" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">ANVISA</text>
+    <rect x="30" y="35" width="60" height="40" stroke="#FFD700" stroke-width="2" fill="none" rx="5"/>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="10" fill="#FFD700" text-anchor="middle">BRASIL</text>
+    <text x="60" y="65" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">Health Regulatory</text>
+    <text x="60" y="85" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Brazilian Health</text>
+    <text x="60" y="100" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Regulatory</text>
+    <text x="60" y="115" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Agency</text>
+</svg>

@@ -1,0 +1,10 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#2e5c8a" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">IEC</text>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">60601</text>
+    <path d="M40 60 L50 70 L70 50 L80 60" stroke="#FFD700" stroke-width="3" fill="none"/>
+    <circle cx="45" cy="75" r="3" fill="#FFD700"/>
+    <circle cx="75" cy="75" r="3" fill="#FFD700"/>
+    <text x="60" y="95" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Medical Electrical</text>
+    <text x="60" y="110" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Equipment Safety</text>
+</svg>

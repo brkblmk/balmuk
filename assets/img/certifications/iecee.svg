@@ -1,0 +1,9 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#2c5f8a" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">IECEE</text>
+    <circle cx="60" cy="50" r="20" stroke="#FFD700" stroke-width="2" fill="none"/>
+    <text x="60" y="55" font-family="Arial, sans-serif" font-size="12" fill="#FFD700" text-anchor="middle">CB</text>
+    <text x="60" y="80" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Electrotechnical</text>
+    <text x="60" y="95" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Equipment</text>
+    <text x="60" y="110" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Conformity</text>
+</svg>

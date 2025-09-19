@@ -1,0 +1,9 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#0080c7" rx="8"/>
+    <text x="60" y="35" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">TÜV</text>
+    <text x="60" y="55" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">CERTIFIED</text>
+    <rect x="35" y="65" width="50" height="20" stroke="white" stroke-width="2" fill="none" rx="5"/>
+    <text x="60" y="78" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">SAFETY</text>
+    <text x="60" y="100" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">German Technical</text>
+    <text x="60" y="115" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Inspection</text>
+</svg>

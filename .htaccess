@@ -1,0 +1,163 @@
+# Prime EMS Studios - Apache Configuration
+# ==========================================
+
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Force HTTPS (production'da aktif edilmeli - development'da devre dışı)
+# RewriteCond %{HTTPS} off
+# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Remove www (optional)
+# RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+# RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+# SEO-Friendly URLs
+# ==========================================
+
+# Blog URL'leri
+RewriteRule ^blog/?$ blog.php [L,QSA]
+RewriteRule ^blog/([a-z0-9-]+)/?$ blog-detail.php?slug=$1 [L,QSA]
+RewriteRule ^blog/kategori/([a-z0-9-]+)/?$ blog.php?category=$1 [L,QSA]
+RewriteRule ^blog/etiket/([a-z0-9-]+)/?$ blog.php?tag=$1 [L,QSA]
+
+# Servis URL'leri
+RewriteRule ^hizmetler/?$ services.php [L]
+RewriteRule ^hizmet/([a-z0-9-]+)/?$ service-detail.php?slug=$1 [L,QSA]
+
+# Sayfa URL'leri
+RewriteRule ^hakkimizda/?$ about.php [L]
+RewriteRule ^iletisim/?$ contact.php [L]
+RewriteRule ^randevu/?$ reservation.php [L]
+RewriteRule ^fiyatlar/?$ pricing.php [L]
+RewriteRule ^sss/?$ faq.php [L]
+RewriteRule ^kampanyalar/?$ campaigns.php [L]
+
+# Remove .php extension
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php [L]
+
+# Security Headers
+# ==========================================
+
+# UTF-8 Content-Type for Turkish characters
+AddDefaultCharset UTF-8
+AddCharset UTF-8 .html .php .txt .css .js
+
+# Prevent clickjacking
+Header always append X-Frame-Options SAMEORIGIN
+
+# XSS Protection
+Header set X-XSS-Protection "1; mode=block"
+
+# Prevent MIME sniffing
+Header set X-Content-Type-Options "nosniff"
+
+# Referrer Policy
+Header set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Content Security Policy (basic)
+# Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://unpkg.com https://www.google.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-src https://www.youtube.com https://www.google.com;"
+
+# File Access Protection
+# ==========================================
+
+# Protect config files
+<FilesMatch "^\.htaccess|\.htpasswd|\.ini|\.log|\.sh|\.sql|composer\.(json|lock)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Protect directories
+<FilesMatch "^(config|includes|sql|vendor)/">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
+
+# Protect against SQL injection in URL
+RewriteCond %{QUERY_STRING} (union|select|insert|drop|delete|update|cast|create|char|convert|alter|declare|script|set|md5|benchmark|encode) [NC]
+RewriteRule ^(.*)$ - [F,L]
+
+# Block suspicious user agents
+RewriteCond %{HTTP_USER_AGENT} (havij|libwww-perl|wget|python|nikto|curl|scan|java|winhttp|clshttp|loader) [NC]
+RewriteRule ^(.*)$ - [F,L]
+
+# Block suspicious request methods
+RewriteCond %{REQUEST_METHOD} ^(TRACE|DELETE|TRACK|DEBUG) [NC]
+RewriteRule ^(.*)$ - [F,L]
+
+# Performance Optimization
+# ==========================================
+
+# Enable compression
+<IfModule mod_deflate.c>
+    # Sıkıştırma seviyesi optimizasyonu
+    DeflateCompressionLevel 6
+
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE text/javascript
+    AddOutputFilterByType DEFLATE text/json
+
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE application/ld+json
+    AddOutputFilterByType DEFLATE application/manifest+json
+</IfModule>
+
+# Browser Caching
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Images
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # Video
+    ExpiresByType video/mp4 "access plus 1 year"
+    ExpiresByType video/mpeg "access plus 1 year"
+    
+    # CSS, JavaScript
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Others
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType application/x-shockwave-flash "access plus 1 month"
+</IfModule>
+
+# Error Pages
+# ==========================================
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+ErrorDocument 500 /500.php
+
+# PHP Configuration (if allowed)
+# ==========================================
+<IfModule mod_php7.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 10M
+    php_value max_execution_time 300
+    php_value max_input_time 300
+    php_value memory_limit 256M
+</IfModule>
+
+# Redirect old URLs (if any)
+# ==========================================
+# Redirect 301 /old-page.html /new-page
+# Redirect 301 /eski-sayfa /yeni-sayfa

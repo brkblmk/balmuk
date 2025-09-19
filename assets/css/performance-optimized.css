@@ -1,0 +1,540 @@
+/* Optimized CSS for Performance */
+
+/* Critical CSS - Above the fold */
+.hero-section {
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    text-align: center;
+    color: white;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 20px;
+}
+
+.hero-title {
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    margin-bottom: 2rem;
+    opacity: 0.9;
+}
+
+/* Lazy loaded styles */
+.lazy {
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.lazy-loaded {
+    opacity: 1;
+}
+
+/* Performance optimized animations */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* GPU accelerated elements */
+.gpu-optimized {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+/* Optimized grid system */
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    gap: clamp(1rem, 3vw, 2rem);
+    margin: 2rem 0;
+}
+
+/* Fast loading states */
+.skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ==============================================
+   ADVANCED PERFORMANCE OPTIMIZATIONS
+   ============================================== */
+
+/* Critical Resource Hints */
+/* Add these to HTML head:
+    <link rel="preload" href="/assets/css/theme.css" as="style">
+    <link rel="preload" href="/assets/js/main.js" as="script">
+    <link rel="preload" href="/assets/js/performance-loader.js" as="script">
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="preconnect" href="//fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="//cdn.jsdelivr.net" crossorigin>
+    <link rel="prefetch" href="/services.php">
+    <link rel="prefetch" href="/contact-form.php">
+    <link rel="preload" href="/assets/images/logo.svg" as="image" type="image/svg+xml">
+*/
+
+/* Content Visibility API */
+.off-screen {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+}
+
+/* Optimized Font Loading */
+.font-loaded {
+    font-display: swap;
+}
+
+/* Font Loading Strategy */
+.font-loading .wf-loading {
+    visibility: hidden;
+}
+
+.font-loading .wf-active {
+    visibility: visible;
+}
+
+.font-loading .wf-inactive {
+    visibility: visible;
+}
+
+/* Preload Critical Fonts */
+/* Add to HTML head:
+<link rel="preload" href="/assets/fonts/inter-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/poppins-semibold.woff2" as="font" type="font/woff2" crossorigin>
+*/
+
+/* Image Optimization */
+.responsive-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.img-placeholder {
+    background: linear-gradient(
+        45deg, 
+        #f0f0f0 25%, 
+        transparent 25%, 
+        transparent 75%, 
+        #f0f0f0 75%
+    );
+    background-size: 16px 16px;
+    background-position: 0 0, 8px 8px;
+    animation: placeholder-shimmer 2s infinite linear;
+}
+
+@keyframes placeholder-shimmer {
+    0% { background-position: 0 0, 8px 8px; }
+    100% { background-position: 16px 16px, 24px 24px; }
+}
+
+/* WebP Support */
+.webp .webp-image {
+    background-image: url('image.webp');
+}
+
+.no-webp .webp-image {
+    background-image: url('image.jpg');
+}
+
+/* CSS Containment */
+.layout-container {
+    contain: layout style paint;
+}
+
+.paint-container {
+    contain: paint;
+}
+
+.size-container {
+    contain: size;
+}
+
+/* Optimized Scrolling */
+.smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Hardware Acceleration */
+.hw-accelerated {
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Efficient Animations */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    will-change: opacity, transform;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Optimized Loading States */
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #FFD700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    will-change: transform;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Optimized Tables */
+.perf-table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.perf-table td,
+.perf-table th {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Virtual Scrolling Container */
+.virtual-scroll {
+    height: 400px;
+    overflow-y: auto;
+    contain: strict;
+}
+
+/* Optimized Form Controls */
+.fast-input {
+    transition: border-color 0.2s ease;
+    will-change: border-color;
+}
+
+.fast-input:focus {
+    outline: none;
+    border-color: #FFD700;
+}
+
+/* Critical CSS for Above-the-Fold */
+.critical-section {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #2B2B2B 0%, #1A1A1A 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Navbar Critical CSS */
+.navbar {
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem 0;
+    transition: background 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #FFD700 !important;
+}
+
+.nav-link {
+    color: #ffffff !important;
+    margin: 0 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #FFD700 !important;
+}
+
+/* Button Critical CSS */
+.btn-primary {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    border: none;
+    color: #1a1a1a;
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 215, 0, 0.3);
+}
+
+/* Card Critical CSS */
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Optimized Font Face for Critical Fonts */
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/assets/fonts/inter-regular.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/assets/fonts/poppins-semibold.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Defer Non-Critical CSS */
+.non-critical {
+    /* Load these styles after page load */
+    content-visibility: auto;
+}
+
+/* Optimized Media Queries */
+@media (max-width: 768px) {
+    .mobile-optimized {
+        font-size: 14px;
+        padding: 0.5rem;
+    }
+
+    .hide-on-mobile {
+        display: none;
+    }
+
+    /* Touch device optimizations */
+    .touch-device * {
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.1);
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .touch-device a,
+    .touch-device button {
+        -webkit-user-select: auto;
+        -khtml-user-select: auto;
+        -moz-user-select: auto;
+        -ms-user-select: auto;
+        user-select: auto;
+    }
+
+    /* Disable heavy animations on touch devices */
+    @media (hover: none) and (pointer: coarse) {
+        .heavy-animation {
+            animation: none !important;
+            transition: none !important;
+        }
+
+        .gpu-accelerated {
+            transform: none !important;
+            will-change: auto !important;
+        }
+    }
+
+    /* Mobile-first responsive design */
+    .mobile-first {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* Slow connection optimizations */
+@media (max-width: 768px) and (prefers-reduced-data: reduce) {
+    .data-saver {
+        background-image: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        transition: none !important;
+    }
+
+    .data-saver img[loading="lazy"] {
+        display: none;
+    }
+
+    .data-saver::before {
+        content: "Yavaş bağlantı - görseller yüklenmiyor";
+        display: block;
+        padding: 1rem;
+        background: #f0f0f0;
+        color: #666;
+        text-align: center;
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 769px) {
+    .desktop-optimized {
+        font-size: 16px;
+        padding: 1rem;
+    }
+}
+
+/* Print Optimizations */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+    
+    * {
+        background: transparent !important;
+        color: black !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .fade-in,
+    .loading-spinner,
+    .skeleton {
+        animation: none;
+        transition: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .high-contrast {
+        border: 2px solid;
+        background: white;
+        color: black;
+    }
+}
+
+/* Dark Mode Optimizations */
+@media (prefers-color-scheme: dark) {
+    .auto-dark {
+        background: #1a1a1a;
+        color: #ffffff;
+    }
+}
+
+/* Connection Speed Optimizations */
+@media (prefers-reduced-data) {
+    .data-saver {
+        background-image: none;
+        font-family: system-ui, sans-serif;
+    }
+}
+
+/* ==============================================
+   UTILITY CLASSES FOR PERFORMANCE
+   ============================================== */
+
+.no-transition {
+    transition: none !important;
+}
+
+.gpu-layer {
+    transform: translateZ(0);
+    will-change: transform;
+}
+
+.contain-layout {
+    contain: layout;
+}
+
+.contain-paint {
+    contain: paint;
+}
+
+.contain-size {
+    contain: size;
+}
+
+.contain-style {
+    contain: style;
+}
+
+/* Intersection Observer Classes */
+.io-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.io-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Web Vitals Optimization */
+.cls-prevent {
+    /* Prevent Cumulative Layout Shift */
+    aspect-ratio: 16/9;
+    width: 100%;
+}
+
+.lcp-optimize {
+    /* Largest Contentful Paint optimization */
+    font-display: swap;
+    loading: eager;
+}
+
+.fid-optimize {
+    /* First Input Delay optimization */
+    pointer-events: auto;
+    user-select: auto;
+}

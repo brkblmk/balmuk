@@ -1,0 +1,10 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#0f8b3c" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">ISO</text>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">14001</text>
+    <text x="60" y="60" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">2015</text>
+    <circle cx="60" cy="80" r="12" stroke="#FFD700" stroke-width="2" fill="none"/>
+    <path d="M55 80 L58 83 L65 76" stroke="#FFD700" stroke-width="2" fill="none"/>
+    <text x="60" y="100" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">Environmental</text>
+    <text x="60" y="113" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">Management</text>
+</svg>

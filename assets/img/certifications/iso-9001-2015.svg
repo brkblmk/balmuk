@@ -1,0 +1,10 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#1b4db3" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">ISO</text>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">9001</text>
+    <text x="60" y="60" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">2015</text>
+    <rect x="25" y="70" width="70" height="15" stroke="#FFD700" stroke-width="2" fill="none" rx="3"/>
+    <text x="60" y="80" font-family="Arial, sans-serif" font-size="8" fill="#FFD700" text-anchor="middle">QUALITY</text>
+    <text x="60" y="95" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Management</text>
+    <text x="60" y="110" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Systems</text>
+</svg>

@@ -1,0 +1,121 @@
+# PRIME EMS STUDIOS - SECURITY.TXT
+# Güvenlik Araştırmacıları ve Yetkililer İçin İletişim Dosyası
+# RFC 9116 Standardına Uygun
+
+## GÜVENLİK İLETİŞİM BİLGİLERİ
+
+### Birincil İletişim
+- **E-posta:** security@primeemsstudios.com
+- **Telefon:** +90 (216) 555-0199 (7/24 Güvenlik Hattı)
+- **Acil Durum:** +90 (216) 555-0000 (Sadece Kritik Güvenlik Açıkları)
+
+### Yetkili Kişiler
+- **Bilgi Güvenliği Sorumlusu:** Dr. Ahmet Yılmaz
+- **CTO:** Prof. Dr. Mehmet Demir
+- **Yasal Danışman:** Av. Zeynep Kaya
+
+### Şifreleme ve İmza
+- **PGP Anahtarı:** https://primeemsstudios.com/.well-known/pgp-key.txt
+- **S/MIME Sertifikası:** Mevcut (İstek üzerine sağlanır)
+
+## GÜVENLİK POLİTİKALARI
+
+### Açık Raporlama İlkeleri
+- **Vulnerability Disclosure:** Sorumlu açıklama politikası uygulanır
+- **No Retaliation:** İyi niyetli raporlar için yasal işlem yapılmaz
+- **Recognition:** Önemli katkılar için teşekkür ve ödüllendirme
+- **Transparency:** Düzeltme süreci hakkında bilgilendirme
+
+### Kabul Edilen Güvenlik Açıkları
+- **Web Uygulaması Güvenlik Açıkları:** SQL Injection, XSS, CSRF vb.
+- **API Güvenlik Açıkları:** Broken Authentication, Rate Limiting vb.
+- **Altyapı Güvenlik Açıkları:** DDoS, DNS Hijacking vb.
+- **EMS Cihaz Güvenlik Açıkları:** Firmware, Network Security vb.
+
+### Reddedilen Güvenlik Açıkları
+- **DoS Saldırıları:** Sistem erişilebilirliğini etkileyecek testler
+- **Veri Bozma:** Kullanıcı verilerini etkileyecek eylemler
+- **Spam ve Abuse:** Sistematik kötüye kullanım
+- **Third-party Services:** Bağlı kuruluşlar üzerindeki testler
+
+## RAPORLAMA YÖNERGELERİ
+
+### Rapor Formatı
+Lütfen aşağıdaki bilgileri içeren raporlar gönderin:
+1. **Açıklama:** Güvenlik açığının detaylı açıklaması
+2. **Önem Derecesi:** CVSS skorlaması ve risk değerlendirmesi
+3. **Tekrarlama Adımları:** Açığı yeniden üretme talimatları
+4. **Potansiyel Etki:** Sisteme ve kullanıcılara olası etkiler
+5. **Önerilen Çözüm:** Düzeltme önerileri
+
+### Zaman Çizelgesi
+- **İlk Yanıt:** 24 saat içinde
+- **Güncelleme:** Haftalık ilerleme raporları
+- **Çözüm:** Kritik açıklar için 7 gün, diğerleri için 30 gün
+- **Açıklamalar:** Kamuya açıklanmadan önce koordinasyon
+
+## SİSTEM BİLGİLERİ
+
+### Teknik Altyapı
+- **Web Sunucusu:** Apache 2.4.x
+- **Veritabanı:** MySQL 8.0.x
+- **Programlama Dilleri:** PHP 8.1+, JavaScript ES6+
+- **Framework:** Laravel 10.x, React 18.x
+- **Güvenlik Araçları:** ModSecurity, Fail2Ban, SSL/TLS
+
+### Güvenlik Önlemleri
+- **Web Application Firewall:** Aktif
+- **Intrusion Detection:** Real-time monitoring
+- **SSL/TLS:** End-to-End encryption
+- **Multi-Factor Authentication:** Tüm kritik sistemlerde
+- **Regular Security Audits:** Aylık penetration testleri
+
+## EMS CİHAZ GÜVENLİĞİ
+
+### Tıbbi Cihaz Güvenliği
+- **FDA Güvenlik Standartları:** Class IIa tıbbi cihaz
+- **IEC 60601:** Tıbbi elektroniğe ilişkin standartlar
+- **Risk Yönetimi:** ISO 14971 uyarınca
+- **Güvenlik Mekanizmaları:** Overload protection, emergency stop
+
+### Ağ Güvenliği
+- **Network Segmentation:** EMS cihazları izole edilmiş
+- **Encryption:** Tüm veri iletimlerinde AES-256
+- **Access Control:** Role-based permissions
+- **Monitoring:** 24/7 güvenlik izleme
+
+## İLETİŞİM PROTOKOLLERİ
+
+### Kriptografik İletişim
+- **PGP/GPG:** E-posta şifrelemesi için zorunlu
+- **Signal/WhatsApp:** Acil durum iletişimi
+- **Secure Channels:** Tüm iletişim şifrelenmiş
+
+### Gizlilik ve Gizlilik
+- **Confidentiality:** Güvenlik açığı detayları gizli tutulur
+- **Anonymity:** İsteğe bağlı anonim raporlama
+- **Data Protection:** Kişisel bilgiler GDPR uyumlu
+- **Intellectual Property:** Araştırmacı hakları korunur
+
+---
+
+## İLETİŞİM ŞABLONU
+
+### Güvenlik Açığı Raporu Şablonu
+
+Konu: [CRITICAL/HIGH/MEDIUM/LOW] - Güvenlik Açığı Raporu - [Tarih]
+
+Sayın Prime EMS Studios Güvenlik Ekibi,
+
+[Detaylı açıklama ve teknik bilgiler]
+
+İyi çalışmalar,
+[Güvenlik Araştırmacısı Adı - İsteğe bağlı]
+
+---
+
+Bu security.txt dosyası RFC 9116 standardına uygundur ve Prime EMS Studios'un güvenlik araştırmacılarıyla işbirliği için tasarlanmıştır.
+
+Son Güncelleme: 2025-01-18
+Geçerlilik Süresi: 2026-01-18
+İletişim Dili: Türkçe / English

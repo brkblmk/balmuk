@@ -1,0 +1,240 @@
+/* === DEVICE SECTION FIXES === */
+
+/* Device Badge Fix */
+.device-badge {
+    background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+    color: #1a1a1a !important;
+    padding: 8px 20px;
+    border-radius: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 1rem;
+}
+
+.device-badge span {
+    color: #1a1a1a !important;
+}
+
+/* Device Title Fix */
+.device-title {
+    color: #1a1a1a !important;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* Device Content */
+.device-content {
+    padding: 2rem;
+}
+
+.device-content h3,
+.device-content h4,
+.device-content h5 {
+    color: #1a1a1a !important;
+}
+
+.device-description {
+    color: #6c757d !important;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Features Title */
+.features-title,
+.benefits-title,
+.services-title,
+.specs-title {
+    color: #1a1a1a !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.features-title i,
+.benefits-title i,
+.services-title i,
+.specs-title i {
+    color: #FFD700;
+}
+
+/* Feature Items */
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem 0;
+}
+
+.feature-item i {
+    color: #FFD700;
+    font-size: 1rem;
+}
+
+.feature-item span {
+    color: #333 !important;
+    font-size: 0.95rem;
+}
+
+/* Benefits List */
+.benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.benefits-list li {
+    color: #333 !important;
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.benefits-list li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
+    font-weight: bold;
+}
+
+/* Technical Specs Accordion */
+.tech-specs-accordion {
+    margin-top: 2rem;
+}
+
+.specs-toggle {
+    background: linear-gradient(135deg, #FFD700 0%, #FFC700 100%);
+    color: #1a1a1a;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+
+.specs-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+}
+
+.specs-toggle i {
+    transition: transform 0.3s ease;
+}
+
+.specs-toggle.active i {
+    transform: rotate(180deg);
+}
+
+.specs-content {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    margin-top: 1rem;
+    display: none;
+    animation: slideDown 0.3s ease;
+}
+
+.specs-content.show {
+    display: block;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Spec Items */
+.spec-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.spec-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.spec-icon {
+    color: #FFD700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.spec-detail h6 {
+    color: #6c757d !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+}
+
+.spec-detail span {
+    color: #1a1a1a !important;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+/* Device Image */
+.device-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+}
+
+.device-placeholder {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 3rem;
+    border-radius: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+.device-placeholder i {
+    color: #FFD700;
+}
+
+.device-placeholder p {
+    color: #6c757d !important;
+    margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .device-title {
+        font-size: 2rem;
+    }
+    
+    .device-content {
+        padding: 1rem;
+    }
+    
+    .specs-content {
+        padding: 1rem;
+    }
+    
+    .spec-item {
+        margin-bottom: 1rem;
+    }
+}

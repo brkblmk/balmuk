@@ -1,0 +1,9 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#1a5490" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">FDA</text>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">APPROVED</text>
+    <circle cx="60" cy="65" r="15" stroke="white" stroke-width="2" fill="none"/>
+    <path d="M52 65 L58 71 L70 59" stroke="white" stroke-width="3" fill="none"/>
+    <text x="60" y="90" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">U.S. Food & Drug</text>
+    <text x="60" y="105" font-family="Arial, sans-serif" font-size="9" fill="white" text-anchor="middle">Administration</text>
+</svg>

@@ -1,0 +1,8 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#0066cc" rx="8"/>
+    <text x="60" y="30" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">ISO</text>
+    <text x="60" y="50" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">13485</text>
+    <text x="60" y="70" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Medical Devices</text>
+    <text x="60" y="85" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Quality</text>
+    <text x="60" y="100" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Management</text>
+</svg>

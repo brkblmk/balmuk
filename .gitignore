@@ -1,0 +1,68 @@
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+
+# IDE Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Log Files
+*.log
+logs/
+error_log
+access_log
+
+# Database Files
+*.sql
+*.sqlite
+*.db
+database/
+*.env
+
+# Cache Files
+cache/
+tmp/
+temp/
+
+# Vendor Dependencies
+vendor/
+node_modules/
+composer.lock
+
+# Upload Directories (if any)
+uploads/
+media/uploads/
+
+# Backup Files
+*.bak
+*.backup
+*~
+
+# PHP Specific
+.phpintel
+.phpunit.result.cache
+
+# WordPress (if applicable)
+wp-config.php
+wp-content/uploads/
+wp-content/cache/
+
+# Laravel (if applicable)
+storage/
+.env
+.env.local
+
+# Sensitive Files
+config/secrets.php
+config/keys.php
+*.key
+*.pem

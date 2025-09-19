@@ -1,0 +1,10 @@
+<svg width="120" height="120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#d4af37" rx="8"/>
+    <text x="60" y="25" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">INVIMA</text>
+    <rect x="25" y="35" width="70" height="30" stroke="white" stroke-width="2" fill="none" rx="5"/>
+    <text x="60" y="45" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">COLOMBIA</text>
+    <text x="60" y="55" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">INSTITUTO</text>
+    <text x="60" y="75" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">National Institute</text>
+    <text x="60" y="90" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">Drug & Food</text>
+    <text x="60" y="105" font-family="Arial, sans-serif" font-size="8" fill="white" text-anchor="middle">Surveillance</text>
+</svg>

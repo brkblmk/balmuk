@@ -1,0 +1,775 @@
+/* Mobile-First Responsive Design */
+
+/* Small mobile (320px-414px) */
+@media (max-width: 413px) {
+    /* Smaller touch targets for very small screens */
+    .btn-mobile {
+        min-height: 44px;
+        min-width: 44px;
+        font-size: 14px;
+    }
+
+    /* Tighter spacing for small screens */
+    .mobile-menu li {
+        margin: 15px 0;
+    }
+
+    .mobile-menu a {
+        padding: 12px;
+        font-size: 16px;
+    }
+}
+
+/* Mobile and tablet (414px-768px) */
+@media (max-width: 768px) {
+    /* Mobile Navigation */
+    .mobile-menu {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.95);
+        transition: left 0.3s ease;
+        z-index: 9999;
+    }
+    
+    .mobile-menu.active {
+        left: 0;
+    }
+    
+    .mobile-menu ul {
+        list-style: none;
+        padding: 0;
+        margin: 80px 20px 0;
+    }
+    
+    .mobile-menu li {
+        margin: 20px 0;
+    }
+    
+    .mobile-menu a {
+        color: white;
+        font-size: 18px;
+        text-decoration: none;
+        display: block;
+        padding: 15px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Touch-friendly buttons */
+    .btn-mobile {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 16px;
+        border-radius: 8px;
+        padding: 12px 16px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.2s ease;
+    }
+
+    .btn-mobile:active {
+        transform: scale(0.95);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Increase touch targets for all interactive elements */
+    button, .btn, a[role="button"], input[type="submit"], input[type="button"] {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 12px 16px;
+    }
+
+    /* Links should have minimum 48px height for better touch targets */
+    a {
+        min-height: 48px;
+        padding: 14px 16px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    /* Form inputs touch optimization */
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"], textarea, select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 44px;
+        padding: 12px;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+    }
+
+    input[type="text"]:active, input[type="email"]:active, input[type="tel"]:active,
+    input[type="password"]:active, textarea:active, select:active {
+        border-color: #FFD700;
+        box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+    }
+    
+    /* Responsive images */
+    .responsive-img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+    
+    /* Card optimizations */
+    .card-mobile {
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Form optimizations */
+    .form-control-mobile {
+        height: 48px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Typography */
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.75rem; }
+    h3 { font-size: 1.5rem; }
+    
+    /* Spacing */
+    .py-mobile { padding: 30px 0; }
+    .px-mobile { padding: 0 15px; }
+}
+
+/* Touch gestures support */
+.swipe-container {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+.swipe-item {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+}
+
+/* Pull to refresh */
+.pull-refresh {
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+}
+
+.pull-refresh.pulling {
+    transform: translateY(60px);
+}
+
+/* Mobile modal */
+@media (max-width: 768px) {
+    .modal-fullscreen-mobile {
+        width: 100vw;
+        max-width: none;
+        height: 100vh;
+        margin: 0;
+        border-radius: 0;
+    }
+}
+
+/* Loading states */
+.loading-skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading-wave 2s infinite;
+}
+
+@keyframes loading-wave {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+/* Thumb-friendly navigation */
+.thumb-nav {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.thumb-nav button {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    background: #FFD700;
+    color: #000;
+    margin: 8px 0;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Zoomable content for gesture support */
+.zoomable {
+    transition: transform 0.3s ease;
+    cursor: zoom-in;
+}
+
+.zoomable-content {
+    transition: transform 0.1s ease;
+    transform-origin: center center;
+}
+
+/* Carousel swipe support */
+.carousel-container {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none;
+}
+
+.carousel-item {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    touch-action: pan-x;
+}
+}
+
+/* Ripple effect for touch feedback */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple-animation 0.6s linear;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Touch-specific CSS optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Touch devices only */
+
+    /* Optimized touch actions */
+    button, .btn, a, input, select, textarea {
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Scrollable areas should allow panning */
+    .scrollable, .carousel-container, .swipe-container {
+        touch-action: pan-x pan-y;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Prevent text selection on interactive elements */
+    .interactive, .btn, .card, .nav-item {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+
+    /* Allow text selection on content areas */
+    p, h1, h2, h3, h4, h5, h6, .content-text {
+        -webkit-user-select: text;
+        user-select: text;
+    }
+
+    /* Enhanced tap highlight colors */
+    * {
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+    }
+
+    /* Custom tap highlight for specific elements */
+    .btn-primary {
+        -webkit-tap-highlight-color: rgba(0, 123, 255, 0.2);
+    }
+
+    .btn-secondary {
+        -webkit-tap-highlight-color: rgba(108, 117, 125, 0.2);
+    }
+
+    /* Remove hover effects on touch devices */
+    .no-touch-hover:hover {
+        transform: none !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+}
+
+/* Hover-capable devices */
+@media (hover: hover) {
+    /* Re-enable hover effects for mouse users */
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Custom cursor for interactive elements */
+    button, .btn, a {
+        cursor: pointer;
+    }
+}
+
+/* Touch scrolling optimizations */
+.smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Momentum scrolling for iOS */
+.ios-scroll {
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
+}
+
+/* Prevent rubber band scrolling on iOS */
+.prevent-scroll {
+    overscroll-behavior: none;
+    -webkit-overscroll-behavior: none;
+}
+
+/* Touch-friendly focus states */
+button:focus, .btn:focus, input:focus, select:focus, textarea:focus {
+    outline: 2px solid #FFD700;
+    outline-offset: 2px;
+}
+
+/* Enhanced form touch optimizations */
+@media (max-width: 768px) {
+    /* Input field optimizations */
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"],
+    input[type="number"], input[type="url"], input[type="search"], textarea {
+        font-size: 16px; /* Prevents zoom on iOS */
+        min-height: 48px;
+        padding: 14px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        transition: all 0.2s ease;
+        -webkit-appearance: none;
+        appearance: none;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    /* Focus states for inputs */
+    input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus,
+    input[type="password"]:focus, input[type="number"]:focus, input[type="url"]:focus,
+    input[type="search"]:focus, textarea:focus {
+        border-color: #FFD700;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        outline: none;
+    }
+
+    /* Select box optimizations */
+    select {
+        font-size: 16px;
+        min-height: 48px;
+        padding: 14px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+        background-position: right 12px center;
+        background-repeat: no-repeat;
+        background-size: 16px;
+        padding-right: 40px;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    select:focus {
+        border-color: #FFD700;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        outline: none;
+    }
+
+    /* Date/Time input optimizations */
+    input[type="date"], input[type="datetime-local"], input[type="time"] {
+        font-size: 16px;
+        min-height: 48px;
+        padding: 14px 16px;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        background: white;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    input[type="date"]:focus, input[type="datetime-local"]:focus, input[type="time"]:focus {
+        border-color: #FFD700;
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        outline: none;
+    }
+
+    /* Textarea optimizations */
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+        font-family: inherit;
+        line-height: 1.5;
+    }
+
+    /* Checkbox and radio optimizations */
+    input[type="checkbox"], input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin: 0 8px 0 0;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    /* Label optimizations for touch */
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    /* Form group spacing */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Submit button optimizations */
+    input[type="submit"], input[type="button"], button[type="submit"] {
+        min-height: 48px;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        background: #FFD700;
+        color: #000;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    input[type="submit"]:active, input[type="button"]:active, button[type="submit"]:active {
+        transform: scale(0.98);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/* Custom select dropdown styling for better touch experience */
+.custom-select {
+    position: relative;
+}
+
+.custom-select select {
+    width: 100%;
+}
+
+.custom-select::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #6b7280;
+    pointer-events: none;
+}
+
+/* Date picker modal for mobile */
+.date-picker-modal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 16px 16px 0 0;
+    padding: 20px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.date-picker-modal .date-picker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.date-picker-modal .date-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.date-picker-modal .date-item {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+    touch-action: manipulation;
+}
+
+.date-picker-modal .date-item:hover,
+.date-picker-modal .date-item.selected {
+    background: #FFD700;
+    color: #000;
+}
+
+/* Mobile-specific features and optimizations */
+
+/* Viewport and scaling optimizations */
+@media screen and (max-width: 768px) {
+    html {
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        text-size-adjust: 100%;
+    }
+
+    body {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+        touch-action: manipulation;
+    }
+
+    /* Allow text selection on specific elements */
+    p, h1, h2, h3, h4, h5, h6, span, div.content-text,
+    .text-selectable, .allow-select {
+        -webkit-user-select: text;
+        -khtml-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+    }
+
+    /* Enhanced touch scrolling */
+    .touch-scroll {
+        -webkit-overflow-scrolling: touch;
+        overflow: auto;
+        overscroll-behavior: contain;
+        -webkit-overscroll-behavior: contain;
+    }
+
+    /* Smooth momentum scrolling for iOS */
+    .momentum-scroll {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+
+    /* Prevent scroll chaining and rubber band effect */
+    .prevent-scroll-chain {
+        overscroll-behavior: none;
+        -webkit-overscroll-behavior: none;
+    }
+
+    /* Custom tap highlight colors for different elements */
+    .tap-highlight-primary {
+        -webkit-tap-highlight-color: rgba(0, 123, 255, 0.3);
+    }
+
+    .tap-highlight-secondary {
+        -webkit-tap-highlight-color: rgba(108, 117, 125, 0.3);
+    }
+
+    .tap-highlight-success {
+        -webkit-tap-highlight-color: rgba(40, 167, 69, 0.3);
+    }
+
+    .tap-highlight-warning {
+        -webkit-tap-highlight-color: rgba(255, 193, 7, 0.3);
+    }
+
+    .tap-highlight-danger {
+        -webkit-tap-highlight-color: rgba(220, 53, 69, 0.3);
+    }
+
+    .tap-highlight-none {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Prevent context menu on long press for specific elements */
+    .no-context-menu {
+        -webkit-touch-callout: none;
+    }
+
+    /* iOS Safari specific optimizations */
+    @supports (-webkit-touch-callout: none) {
+        .ios-specific {
+            /* iOS specific styles */
+            -webkit-text-size-adjust: 100%;
+            -webkit-appearance: none;
+        }
+
+        /* iOS input styling */
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"],
+        textarea, select {
+            -webkit-appearance: none;
+            border-radius: 8px;
+            background-clip: padding-box;
+        }
+
+        /* iOS button styling */
+        button, .btn, input[type="submit"], input[type="button"] {
+            -webkit-appearance: none;
+            border-radius: 8px;
+            background-clip: padding-box;
+        }
+    }
+
+    /* Android specific optimizations */
+    @media screen and (max-width: 768px) and (-webkit-min-device-pixel-ratio: 1.5) {
+        .android-specific {
+            /* Android specific styles */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        /* Android ripple effect simulation */
+        .android-ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .android-ripple::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .android-ripple:active::after {
+            width: 200px;
+            height: 200px;
+        }
+    }
+
+    /* High DPI display optimizations */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+        .high-dpi {
+            /* High DPI specific optimizations */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* Better text rendering on high DPI */
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    }
+
+    /* Dark mode support for mobile */
+    @media (prefers-color-scheme: dark) {
+        :root {
+            --mobile-bg: #1a1a1a;
+            --mobile-text: #ffffff;
+            --mobile-border: #333333;
+        }
+
+        body.dark-mode-support {
+            background: var(--mobile-bg);
+            color: var(--mobile-text);
+        }
+
+        input[type="text"], input[type="email"], textarea, select {
+            background: var(--mobile-bg);
+            color: var(--mobile-text);
+            border-color: var(--mobile-border);
+        }
+    }
+
+    /* Safe area insets for devices with notches */
+    .safe-area-top {
+        padding-top: env(safe-area-inset-top);
+    }
+
+    .safe-area-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .safe-area-left {
+        padding-left: env(safe-area-inset-left);
+    }
+
+    .safe-area-right {
+        padding-right: env(safe-area-inset-right);
+    }
+
+    /* Full viewport height accounting for mobile browser UI */
+    .full-vh {
+        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
+    }
+}
+
+/* Progressive enhancement for modern mobile browsers */
+@supports (touch-action: manipulation) {
+    .modern-touch {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(255, 215, 0, 0.2);
+    }
+}
+
+/* Fallback for older browsers */
+@supports not (touch-action: manipulation) {
+    .legacy-touch {
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}

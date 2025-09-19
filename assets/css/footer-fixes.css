@@ -1,0 +1,285 @@
+/**
+ * Footer Fixes - Text visibility and layout corrections
+ */
+
+/* Fix footer text visibility */
+#contact h3,
+.bg-dark h3,
+footer h3,
+footer h6,
+.footer-section-title {
+    color: #ffffff !important;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Ensure all footer text is visible */
+footer,
+.modern-footer,
+#contact {
+    color: #ffffff !important;
+}
+
+footer a,
+.modern-footer a,
+#contact a {
+    color: #ffffff !important;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover,
+.modern-footer a:hover,
+#contact a:hover {
+    color: #ffc107 !important; /* Gold color on hover */
+    text-decoration: none;
+}
+
+/* Fix specific footer sections */
+.footer-main {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 60px 0 40px;
+}
+
+.footer-brand .footer-logo {
+    color: #ffffff !important;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-brand .footer-logo i {
+    color: #ffc107;
+}
+
+.footer-description {
+    color: #b0b0b0 !important;
+    margin-bottom: 1.5rem;
+}
+
+.footer-section-title {
+    color: #ffffff !important;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: #b0b0b0 !important;
+    transition: all 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffc107 !important;
+    padding-left: 5px;
+}
+
+/* Contact section in footer */
+.contact-info-compact .contact-item-compact {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: #b0b0b0;
+}
+
+.contact-item-compact i {
+    color: #ffc107;
+    font-size: 1.1rem;
+}
+
+.contact-item-compact a {
+    color: #b0b0b0 !important;
+}
+
+.contact-item-compact a:hover {
+    color: #ffc107 !important;
+}
+
+/* Social links */
+.footer-social .social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff !important;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background-color: #ffc107;
+    color: #1a1a1a !important;
+    transform: translateY(-3px);
+}
+
+/* Fix the contact section background */
+#contact.bg-dark {
+    background-color: #2a2a2a !important;
+    border-top: 3px solid #ffc107;
+}
+
+/* Make sure all headings in dark sections are visible */
+.bg-dark h1,
+.bg-dark h2,
+.bg-dark h3,
+.bg-dark h4,
+.bg-dark h5,
+.bg-dark h6,
+.bg-dark .h1,
+.bg-dark .h2,
+.bg-dark .h3,
+.bg-dark .h4,
+.bg-dark .h5,
+.bg-dark .h6 {
+    color: #ffffff !important;
+}
+
+/* Fix form inputs in dark sections */
+.bg-dark .form-control,
+.bg-dark .form-select {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.bg-dark .form-control::placeholder,
+.bg-dark .form-select::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.bg-dark .form-control:focus,
+.bg-dark .form-select:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: #ffc107;
+    color: #ffffff;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+/* Gold button styles */
+.btn-gold {
+    background-color: #ffc107;
+    border-color: #ffc107;
+    color: #1a1a1a;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-gold:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+    color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+}
+
+/* Text color for gold elements */
+.text-gold {
+    color: #ffc107 !important;
+}
+
+/* Fix layout issues causing horizontal scroll */
+* {
+    max-width: 100%;
+}
+
+body,
+html {
+    overflow-x: hidden !important;
+    width: 100%;
+}
+
+.container-fluid {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Ensure sections don't overflow */
+section {
+    overflow-x: hidden;
+}
+
+/* Fix hexagon background overflow */
+.hexagon-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden !important;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-enhanced {
+    position: relative;
+    overflow: hidden !important;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .footer-main {
+        padding: 40px 0 30px;
+    }
+    
+    .footer-section-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+    
+    .footer-social .social-links {
+        justify-content: center;
+    }
+    
+    #contact .col-lg-4 {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Additional specificity for stubborn elements */
+body .bg-dark h3,
+body footer h3,
+body #contact h3,
+body .footer-section h6,
+body .footer-section-title {
+    color: #ffffff !important;
+}
+
+/* Fix list item colors in footer */
+footer ul li,
+.modern-footer ul li,
+#contact ul li {
+    color: #b0b0b0;
+}
+
+footer ul li strong,
+.modern-footer ul li strong,
+#contact ul li strong {
+    color: #ffffff !important;
+}

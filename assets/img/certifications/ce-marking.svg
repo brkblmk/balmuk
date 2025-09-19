@@ -1,0 +1,8 @@
+<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="120" fill="#003399" rx="8"/>
+    <text x="60" y="35" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="white" text-anchor="middle">CE</text>
+    <text x="60" y="55" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">MARKING</text>
+    <text x="60" y="75" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">European</text>
+    <text x="60" y="90" font-family="Arial, sans-serif" font-size="10" fill="white" text-anchor="middle">Conformity</text>
+    <circle cx="60" cy="100" r="8" stroke="white" stroke-width="2" fill="none"/>
+</svg>

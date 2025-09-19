@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prime EMS Video - Profesyonel EMS Antrenmanı</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .video-container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            background: #0a0a0a;
+            overflow: hidden;
+        }
+        
+        /* Animated gradient background */
+        .gradient-bg {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(
+                -45deg,
+                #2b2b2b,
+                #1a1a1a,
+                #FFD700,
+                #2b2b2b,
+                #FFD700,
+                #1a1a1a
+            );
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            opacity: 0.9;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Electric pulse lines */
+        .pulse-lines {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0.3;
+        }
+        
+        .pulse-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                #FFD700, 
+                transparent
+            );
+            animation: pulseMove 3s linear infinite;
+        }
+        
+        .pulse-line:nth-child(1) { top: 20%; animation-delay: 0s; }
+        .pulse-line:nth-child(2) { top: 40%; animation-delay: 0.5s; }
+        .pulse-line:nth-child(3) { top: 60%; animation-delay: 1s; }
+        .pulse-line:nth-child(4) { top: 80%; animation-delay: 1.5s; }
+        
+        @keyframes pulseMove {
+            0% {
+                width: 0;
+                left: 0;
+                opacity: 0;
+            }
+            20% {
+                width: 30%;
+                opacity: 1;
+            }
+            80% {
+                width: 30%;
+                opacity: 1;
+            }
+            100% {
+                width: 0;
+                left: 100%;
+                opacity: 0;
+            }
+        }
+        
+        /* EMS wave visualization */
+        .ems-waves {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.2;
+        }
+        
+        .wave-circle {
+            position: absolute;
+            border: 2px solid #FFD700;
+            border-radius: 50%;
+            animation: waveExpand 4s ease-out infinite;
+        }
+        
+        .wave-circle:nth-child(1) { animation-delay: 0s; }
+        .wave-circle:nth-child(2) { animation-delay: 1s; }
+        .wave-circle:nth-child(3) { animation-delay: 2s; }
+        .wave-circle:nth-child(4) { animation-delay: 3s; }
+        
+        @keyframes waveExpand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                width: 600px;
+                height: 600px;
+                opacity: 0;
+            }
+        }
+        
+        /* Content */
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            z-index: 10;
+            padding: 20px;
+        }
+        
+        .logo-container {
+            margin-bottom: 30px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .logo {
+            font-size: 120px;
+            color: #FFD700;
+            animation: electricPulse 2s ease-in-out infinite;
+            text-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.8),
+                0 0 40px rgba(255, 215, 0, 0.5),
+                0 0 60px rgba(255, 215, 0, 0.3);
+        }
+        
+        @keyframes electricPulse {
+            0%, 100% { 
+                transform: scale(1);
+                filter: brightness(1);
+            }
+            50% { 
+                transform: scale(1.05);
+                filter: brightness(1.3);
+            }
+        }
+        
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            background: linear-gradient(90deg, #FFD700, #FFF, #FFD700);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+        
+        .subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.5rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        
+        .tagline {
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            color: #FFD700;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+        }
+        
+        /* Stats display */
+        .stats {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 1s;
+        }
+        
+        .stat {
+            text-align: center;
+            color: white;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: #FFD700;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFloat 10s infinite linear;
+        }
+        
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 80px;
+            }
+            
+            .stats {
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .wave-circle {
+                animation: waveExpandMobile 4s ease-out infinite;
+            }
+            
+            @keyframes waveExpandMobile {
+                0% {
+                    width: 0;
+                    height: 0;
+                    opacity: 1;
+                }
+                100% {
+                    width: 300px;
+                    height: 300px;
+                    opacity: 0;
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <!-- Animated gradient background -->
+        <div class="gradient-bg"></div>
+        
+        <!-- Electric pulse lines -->
+        <div class="pulse-lines">
+            <div class="pulse-line"></div>
+            <div class="pulse-line"></div>
+            <div class="pulse-line"></div>
+            <div class="pulse-line"></div>
+        </div>
+        
+        <!-- EMS wave visualization -->
+        <div class="ems-waves">
+            <div class="wave-circle"></div>
+            <div class="wave-circle"></div>
+            <div class="wave-circle"></div>
+            <div class="wave-circle"></div>
+        </div>
+        
+        <!-- Floating particles -->
+        <div class="particles" id="particles"></div>
+        
+        <!-- Main content -->
+        <div class="content">
+            <div class="logo-container">
+                <div class="logo">⚡</div>
+            </div>
+            <h1>PRIME EMS STUDIOS</h1>
+            <p class="subtitle">Profesyonel EMS Antrenmanı</p>
+            <p class="tagline">20 Dakikada Maksimum Sonuç</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="stat1">20</div>
+                <div class="stat-label">Dakika</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="stat2">300+</div>
+                <div class="stat-label">Kas Uyarımı</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="stat3">2X</div>
+                <div class="stat-label">Daha Hızlı</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Create floating particles
+        const particlesContainer = document.getElementById('particles');
+        const particleCount = window.innerWidth > 768 ? 30 : 15;
+        
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 10 + 's';
+            particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+            particlesContainer.appendChild(particle);
+        }
+        
+        // Animate stats numbers
+        function animateValue(id, start, end, duration, suffix = '') {
+            const element = document.getElementById(id);
+            const range = end - start;
+            const increment = range / (duration / 16);
+            let current = start;
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current) + suffix;
+            }, 16);
+        }
+        
+        // Start animations after page load
+        setTimeout(() => {
+            animateValue('stat1', 0, 20, 1500);
+            animateValue('stat2', 0, 300, 2000, '+');
+        }, 1500);
+    </script>
+</body>
+</html>

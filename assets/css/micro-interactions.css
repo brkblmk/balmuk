@@ -1,0 +1,40 @@
+/* Micro-Interactions */
+.micro-hover {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.micro-hover:hover {
+    transform: translateY(-2px);
+}
+
+.micro-scale:hover {
+    transform: scale(1.05);
+}
+
+.micro-glow:hover {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+/* Ripple Effect */
+.ripple-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple-effect::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.ripple-effect:active::after {
+    width: 300px;
+    height: 300px;
+}
