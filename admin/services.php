@@ -90,6 +90,7 @@ $services = $pdo->query("SELECT * FROM services ORDER BY sort_order ASC, created
 if (isset($_GET['message'])) {
     $message = $_GET['message'];
 }
+}
 ?>
 <!DOCTYPE html>
 <html lang="tr">
