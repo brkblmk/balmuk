@@ -1,6 +1,7 @@
 <?php
 require_once 'config/database.php';
 require_once 'config/security.php';
+require_once 'config/performance.php';
 
 // Get all content from database
 try {
@@ -84,1307 +85,56 @@ try {
     $testimonials = [];
 }
 
+SecurityUtils::generateCSRFToken();
+
 // Sabit veriler artık kullanılmıyor - tüm veriler veritabanından çekiliyor
 // Admin panelden yapılan değişiklikler artık doğrudan anasayfada görünecek
-?>
-<!DOCTYPE html>
-<html lang="tr-TR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="content-language" content="tr-TR">
 
-    <!-- Primary Meta Tags -->
-    <title>Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç | Premium EMS</title>
-    <meta name="title" content="Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç | Premium EMS">
-    <meta name="description" content="Prime EMS Studios İzmir'de EMS cihazları ve tıbbi ekipmanlarla 20 dakikalık sağlık teknolojileri eğitimi sunar. Premium EMS antrenmanları, yağ yakımı ve kas gelişimi için Balçova'da hizmet veriyoruz.">
-    <meta name="keywords" content="EMS cihazları, tıbbi ekipmanlar, sağlık teknolojileri, elektrik kas stimülasyonu, i-motion, i-model, Balçova EMS, İzmir EMS, yağ yakımı, kas geliştirme, rehabilitasyon, Prime EMS Studios">
-    <meta name="author" content="Prime EMS Studios">
-    <meta name="robots" content="index, follow">
+$siteUrl = rtrim(getSetting('site_url', 'https://primeemsstudios.com'), '/');
+$shareImage = getSetting('social_share_image', $siteUrl . '/assets/images/logo.png');
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://primeemsstudios.com/">
-    <meta property="og:title" content="Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç">
-    <meta property="og:description" content="İzmir'de EMS cihazları ve tıbbi ekipmanlarla sağlık teknolojileri. 20 dakikada maksimum sonuç.">
-    <meta property="og:image" content="https://primeemsstudios.com/assets/images/logo.png">
-    <meta property="og:site_name" content="Prime EMS Studios">
-    <meta property="og:locale" content="tr_TR">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://primeemsstudios.com/">
-    <meta property="twitter:title" content="Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç">
-    <meta property="twitter:description" content="İzmir'de EMS cihazları ve tıbbi ekipmanlarla sağlık teknolojileri. 20 dakikada maksimum sonuç.">
-    <meta property="twitter:image" content="https://primeemsstudios.com/assets/images/logo.png">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:8000/">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
-    <link rel="apple-touch-icon" href="/assets/images/logo.png">
-
-    <!-- Structured Data - Organization Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Prime EMS Studios",
-        "description": "İzmir'de EMS cihazları ve tıbbi ekipmanlarla sağlık teknolojileri hizmetleri sunan premium EMS antrenman merkezi",
-        "url": "https://primeemsstudios.com",
-        "logo": "https://primeemsstudios.com/assets/images/logo.png",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Balçova",
-            "addressRegion": "İzmir",
-            "addressCountry": "TR"
-        },
-        "telephone": "+90 232 555 66 77",
-        "email": "info@primeems.com",
-        "sameAs": [
-            "https://www.facebook.com/primeemsstudios",
-            "https://www.instagram.com/primeemsstudios",
-            "https://www.twitter.com/primeemsstudios"
-        ],
-        "foundingDate": "2024",
-        "serviceArea": {
-            "@type": "City",
-            "name": "İzmir, Türkiye"
-        },
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "name": "Prime EMS Studios İletişim",
-            "description": "Prime EMS Studios ile iletişime geçin",
-            "telephone": "+90 232 555 66 77",
-            "email": "info@primeems.com",
-            "contactType": "Customer Service",
-            "areaServed": "TR",
-            "availableLanguage": "Turkish",
-            "hoursAvailable": [
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                    "opens": "07:00",
-                    "closes": "22:00"
-                },
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": "Sunday",
-                    "opens": "09:00",
-                    "closes": "20:00"
-                }
+$pageMeta = [
+    'title' => 'Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç | Premium EMS',
+    'description' => "Prime EMS Studios, İzmir Balçova'da Almanya üretimi i-motion ve i-model EMS teknolojisi ile 20 dakikalık bilimsel antrenman programları sunar.",
+    'keywords' => 'EMS İzmir, elektrik kas stimülasyonu, i-motion, i-model, Balçova EMS, 20 dakika antrenman, yağ yakımı, kas geliştirme, rehabilitasyon',
+    'canonical' => $siteUrl . '/',
+    'image' => $shareImage,
+    'meta' => [
+        'generator' => 'Prime EMS Studios Custom CMS',
+        'language' => 'tr-TR',
+        'revisit-after' => '1 days',
+        'geo.region' => 'TR-35',
+        'geo.placename' => 'İzmir, Balçova',
+        'geo.position' => '38.3942;27.0322',
+        'ICBM' => '38.3942, 27.0322'
+    ],
+    'styles' => ['assets/css/home.css'],
+    'structured_data' => [
+        [
+            '@type' => 'OfferCatalog',
+            '@id' => $siteUrl . '/#offer-catalog',
+            'name' => 'EMS Hizmetleri',
+            'itemListElement' => [
+                ['@type' => 'Offer', 'name' => 'Prime Slim', 'description' => 'Yağ yakımı için EMS antrenmanı'],
+                ['@type' => 'Offer', 'name' => 'Prime Sculpt', 'description' => 'Bölgesel sıkılaşma programı'],
+                ['@type' => 'Offer', 'name' => 'Prime Power', 'description' => 'Güç ve performans artışı'],
+                ['@type' => 'Offer', 'name' => 'Rehab & Pain', 'description' => 'Rehabilitasyon ve ağrı yönetimi']
             ]
-        },
-        "hasOfferCatalog": {
-            "@type": "OfferCatalog",
-            "name": "EMS Hizmetleri",
-            "itemListElement": [
-                {
-                    "@type": "Offer",
-                    "name": "Prime Slim",
-                    "description": "Yağ yakımı için EMS antrenmanı"
-                },
-                {
-                    "@type": "Offer",
-                    "name": "Prime Sculpt",
-                    "description": "Bölgesel sıkılaşma"
-                },
-                {
-                    "@type": "Offer",
-                    "name": "Prime Power",
-                    "description": "Güç ve performans artışı"
-                },
-                {
-                    "@type": "Offer",
-                    "name": "Rehab & Pain",
-                    "description": "Rehabilitasyon ve ağrı yönetimi"
-                }
-            ]
-        }
-    }
-    </script>
-
-    <!-- WebSite Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "Prime EMS Studios İzmir",
-        "url": "https://primeemsstudios.com",
-        "description": "İzmir'de EMS cihazları ve tıbbi ekipmanlarla sağlık teknolojileri. 20 dakikada maksimum sonuç.",
-        "publisher": {
-            "@type": "Organization",
-            "name": "Prime EMS Studios"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "https://primeemsstudios.com/search?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-
-    <!-- ContactPoint Schema -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "ContactPoint",
-        "name": "Prime EMS Studios İletişim",
-        "description": "Prime EMS Studios ile iletişime geçin",
-        "telephone": "+90 232 555 66 77",
-        "email": "info@primeems.com",
-        "contactType": "Customer Service",
-        "areaServed": "TR",
-        "availableLanguage": "Turkish",
-        "hoursAvailable": [
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                "opens": "07:00",
-                "closes": "22:00"
-            },
-            {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": "Sunday",
-                "opens": "09:00",
-                "closes": "20:00"
-            }
         ]
-    }
-    </script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Bootstrap & Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    
-    <!-- Swiper -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    
-    <!-- AOS Animation -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <!-- Prime EMS Theme -->
-    <link rel="stylesheet" href="assets/css/theme.css">
-    
-    <style>
-        /* Additional custom styles */
-        .hero-section {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            overflow: hidden;
-        }
-
-        .hero-content {
-            text-align: center;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
-            padding: 0 2rem;
-        }
-
-        .hero-content h1,
-        .hero-content p,
-        .hero-content .d-flex {
-            text-align: center;
-            justify-content: center;
-        }
-        
-        .hero-video, .hero-image {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: cover;
-            z-index: -2;
-        }
-        
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                135deg,
-                rgba(43, 43, 43, 0.8) 0%,
-                rgba(43, 43, 43, 0.6) 30%,
-                rgba(43, 43, 43, 0.4) 60%,
-                rgba(43, 43, 43, 0.7) 100%
-            );
-            z-index: -1;
-        }
-
-        .hero-overlay::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background:
-                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.06) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 165, 0, 0.04) 0%, transparent 50%),
-                linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.05) 100%);
-            z-index: 1;
-        }
-
-        .hero-overlay::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><defs><pattern id="luxury-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="1" fill="rgba(255,215,0,0.1)"/><circle cx="20" cy="20" r="0.5" fill="rgba(255,215,0,0.2)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23luxury-pattern)"/></svg>');
-            opacity: 0.3;
-            z-index: 1;
-        }
-        
-        .navbar {
-            background: rgba(255, 255, 255, 0.98) !important;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-        
-        .navbar-brand {
-            font-family: var(--font-primary);
-            font-weight: 700;
-            font-size: 1.8rem;
-            background: var(--prime-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .navbar-nav .nav-link {
-            font-weight: 500;
-            color: var(--prime-dark) !important;
-            margin: 0 0.5rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .navbar-nav .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--prime-gold);
-            transition: width 0.3s ease;
-        }
-        
-        .navbar-nav .nav-link:hover::after {
-            width: 100%;
-        }
-        
-        /* USP Cards */
-        .usp-card {
-            text-align: center;
-            padding: 40px 30px;
-            background: linear-gradient(145deg, white 0%, #fafafa 100%);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .usp-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--prime-gradient);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .usp-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .usp-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 25px 60px rgba(255, 215, 0, 0.15);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        .usp-icon {
-            font-size: 4rem;
-            background: var(--prime-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .usp-card:hover .usp-icon {
-            transform: scale(1.1);
-        }
-        
-        /* Campaign Cards */
-        .campaign-card {
-            background: linear-gradient(145deg, white 0%, #fefefe 100%);
-            border-radius: 25px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            height: 100%;
-            position: relative;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-        }
-
-        .campaign-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: var(--prime-gradient);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-
-        .campaign-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .campaign-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.03) 0%, rgba(255, 165, 0, 0.02) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .campaign-card:hover::after {
-            opacity: 1;
-        }
-
-        .campaign-badge {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: var(--prime-gradient);
-            color: var(--prime-dark);
-            padding: 8px 20px;
-            border-radius: 25px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
-            z-index: 2;
-            transform: translateY(-10px);
-            opacity: 0;
-            transition: all 0.3s ease 0.1s;
-        }
-
-        .campaign-card:hover .campaign-badge {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .campaign-card:hover {
-            transform: translateY(-10px) scale(1.03);
-            box-shadow: 0 30px 70px rgba(255, 215, 0, 0.25);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        .campaign-card h3 {
-            transition: color 0.3s ease;
-        }
-
-        .campaign-card:hover h3 {
-            color: var(--prime-gold);
-        }
-        
-        /* Service Cards */
-        .service-card {
-            background: linear-gradient(145deg, white 0%, #f8f9fa 100%);
-            border-radius: 20px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 2px solid transparent;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.05) 0%, rgba(255, 165, 0, 0.02) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: 1;
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
-        }
-
-        .service-card:hover {
-            border-color: var(--prime-gold);
-            transform: translateY(-8px) scale(1.02);
-            background: white;
-            box-shadow: 0 20px 50px rgba(255, 215, 0, 0.2);
-        }
-
-        .service-icon {
-            font-size: 4rem;
-            background: var(--prime-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 25px;
-            position: relative;
-            transition: all 0.3s ease;
-            z-index: 2;
-        }
-
-        .service-card:hover .service-icon {
-            transform: scale(1.15) rotate(10deg);
-        }
-
-        .service-card h4 {
-            position: relative;
-            z-index: 2;
-            transition: color 0.3s ease;
-        }
-
-        .service-card:hover h4 {
-            color: var(--prime-gold);
-        }
-
-        .service-card p {
-            position: relative;
-            z-index: 2;
-        }
-        
-        /* Device Section */
-        .device-card {
-            background: linear-gradient(145deg, white 0%, #fafafa 100%);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            min-height: 600px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .device-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.03) 0%, rgba(255, 165, 0, 0.01) 100%);
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .device-card:hover::before {
-            opacity: 1;
-        }
-
-        .device-card:hover {
-            transform: translateY(-10px) scale(1.01);
-            box-shadow: 0 30px 60px rgba(255, 215, 0, 0.2);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-
-        /* Device Image Styles */
-        .device-image-container {
-            position: relative;
-            height: 280px;
-            overflow: hidden;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .device-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: all 0.4s ease;
-        }
-
-        .device-card:hover .device-image {
-            transform: scale(1.05);
-        }
-
-        .device-image-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 0, 0, 0.1) 0%, rgba(255, 215, 0, 0.1) 100%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .device-card:hover .device-image-overlay {
-            opacity: 1;
-        }
-
-        .device-placeholder {
-            height: 280px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 15px 15px 0 0;
-            color: #6c757d;
-        }
-
-        .fallback-image {
-            filter: grayscale(50%) brightness(0.9);
-        }
-
-        /* Device Badges */
-        .device-type-badge .badge,
-        .capacity-badge .badge {
-            font-size: 0.75rem;
-            padding: 6px 12px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        /* Device Content */
-        .device-content {
-            padding: 30px 25px;
-            height: calc(100% - 280px);
-            display: flex;
-            flex-direction: column;
-        }
-
-        .device-content h3 {
-            color: var(--prime-dark);
-            font-weight: 700;
-            margin-bottom: 15px;
-            transition: color 0.3s ease;
-            font-size: 1.25rem;
-        }
-
-        .device-card:hover .device-content h3 {
-            color: var(--prime-gold);
-        }
-
-        .device-content p {
-            line-height: 1.6;
-            flex-grow: 1;
-        }
-
-        /* EMS Highlight */
-        .ems-highlight {
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%);
-            border-radius: 12px;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-
-        .ems-highlight .badge {
-            font-size: 0.8rem;
-            padding: 8px 15px;
-            font-weight: 700;
-        }
-
-        /* Device Quick Features */
-        .device-quick-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .device-quick-features .badge {
-            font-size: 0.7rem;
-            padding: 5px 10px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        /* Device Highlights */
-        .device-highlights span {
-            display: inline-block;
-            margin-right: 15px;
-            margin-bottom: 5px;
-        }
-
-        /* Device Certifications */
-        .device-certifications .badge {
-            font-size: 0.7rem;
-            padding: 5px 10px;
-            border-radius: 12px;
-        }
-
-        /* Device Actions */
-        .device-actions {
-            margin-top: auto;
-            padding-top: 20px;
-        }
-
-        .device-actions .btn {
-            border-radius: 25px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .device-actions .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.3);
-        }
-        
-        .device-features {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-        
-        .device-features li {
-            padding: 10px 0;
-            border-bottom: 1px solid var(--prime-light-gray);
-            display: flex;
-            align-items: center;
-        }
-        
-        .device-features li::before {
-            content: '✓';
-            color: var(--prime-gold);
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-        
-        /* WhatsApp Float Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #25D366;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-            transition: all 0.3s ease;
-        }
-        
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(37, 211, 102, 0.5);
-        }
-        
-        /* Sticky CTA Bar */
-        .sticky-cta {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.98);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
-            padding: 15px 0;
-            z-index: 998;
-            display: none;
-        }
-        
-        .sticky-cta.show {
-            display: block;
-        }
-        
-        /* Accessibility improvements */
-        .share-btn {
-            min-width: 44px;
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .share-btn:focus {
-            outline: 2px solid var(--prime-gold);
-            outline-offset: 2px;
-        }
-
-        /* Skip link for screen readers */
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 6px;
-            background: var(--prime-dark);
-            color: var(--prime-gold);
-            padding: 8px;
-            text-decoration: none;
-            z-index: 9999;
-            border-radius: 4px;
-        }
-
-        .skip-link:focus {
-            top: 6px;
-        }
-
-        /* Enhanced focus styles */
-        .btn:focus,
-        .nav-link:focus,
-        a:focus {
-            outline: 2px solid var(--prime-gold);
-            outline-offset: 2px;
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            .btn-prime {
-                background: black !important;
-                color: yellow !important;
-                border: 2px solid yellow !important;
-            }
-
-            .hero-overlay {
-                background: rgba(0, 0, 0, 0.9) !important;
-            }
-        }
-
-        /* Reduced motion support */
-        @media (prefers-reduced-motion: reduce) {
-            .pulse-effect,
-            .fade-up,
-            .hero-video {
-                animation: none !important;
-            }
-
-            .hero-video {
-                display: none;
-            }
-
-            .hero-image {
-                display: block !important;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2rem;
-            }
-
-            .hero-content .lead {
-                font-size: 1.1rem;
-            }
-
-            .navbar-brand {
-                font-size: 1.3rem;
-            }
-
-            /* Touch-friendly buttons */
-            .btn {
-                min-height: 44px;
-                font-size: 16px; /* Prevents zoom on iOS */
-            }
-
-            /* Mobile navigation improvements */
-            .navbar-nav .nav-link {
-                padding: 12px 16px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-            }
-
-            /* Better spacing for mobile */
-            .hero-content {
-                padding: 2rem 1rem;
-                text-align: center;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .hero-content h1,
-            .hero-content p,
-            .hero-content .d-flex {
-                text-align: center;
-                justify-content: center;
-                width: 100%;
-            }
-
-            /* Share buttons mobile */
-            .share-btn {
-                min-width: 48px;
-                min-height: 48px;
-                font-size: 18px;
-            }
-
-            /* Device cards mobile improvements */
-            .device-card {
-                margin-bottom: 20px;
-                border-radius: 15px;
-            }
-
-            .device-image-container {
-                height: 200px;
-            }
-
-            .device-content {
-                padding: 20px 15px;
-            }
-
-            .device-content h3 {
-                font-size: 1.1rem;
-                margin-bottom: 10px;
-            }
-
-            .device-content p {
-                font-size: 0.85rem;
-                line-height: 1.4;
-            }
-
-            /* Quick features mobile */
-            .device-quick-features .badge {
-                font-size: 0.65rem;
-                padding: 3px 6px;
-            }
-
-            /* Highlights mobile */
-            .device-highlights span {
-                font-size: 0.75rem;
-                margin-right: 10px;
-            }
-
-            /* Certifications mobile */
-            .device-certifications .badge {
-                font-size: 0.65rem;
-                padding: 3px 6px;
-                margin-right: 3px;
-            }
-
-            /* Device badges mobile */
-            .device-type-badge .badge,
-            .capacity-badge .badge {
-                font-size: 0.65rem;
-                padding: 4px 8px;
-            }
-
-            /* Device actions mobile */
-            .device-actions .btn {
-                font-size: 0.85rem;
-                padding: 8px 16px;
-            }
-        }
-
-        /* Extra small devices */
-        @media (max-width: 576px) {
-            .device-card {
-                padding: 25px 15px;
-            }
-
-            .device-card .mt-4 h5 {
-                font-size: 1rem;
-                margin-bottom: 12px;
-            }
-
-            /* Comparison table mobile */
-            .table-responsive {
-                font-size: 0.8rem;
-            }
-
-            .table-responsive .table th,
-            .table-responsive .table td {
-                padding: 8px 4px;
-            }
-
-            /* Certifications mobile */
-            .certifications .col-md-2 {
-                margin-bottom: 15px;
-            }
-        }
-
-        /* Certification logos responsive */
-        .certification-logo {
-            transition: all 0.3s ease;
-        }
-
-        .certification-logo:hover {
-            filter: grayscale(0%) brightness(1);
-            transform: scale(1.1);
-        }
-
-        @media (max-width: 576px) {
-            .certification-logo {
-                width: 50px !important;
-                height: 50px !important;
-            }
-        }
-        
-        /* Chatbot Bubble */
-        .chatbot-container {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 10px;
-        }
-        
-        .chatbot-bubble {
-            background: var(--prime-gradient);
-            color: var(--prime-dark);
-            padding: 15px 20px;
-            border-radius: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: pulse-bubble 2s infinite;
-            font-weight: 600;
-            position: relative;
-            max-width: 280px;
-        }
-        
-        @keyframes pulse-bubble {
-            0%, 100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-        }
-        
-        .chatbot-bubble:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(255, 215, 0, 0.5);
-        }
-        
-        .chatbot-bubble::before {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            right: 30px;
-            width: 0;
-            height: 0;
-            border-left: 10px solid transparent;
-            border-right: 10px solid transparent;
-            border-top: 10px solid var(--prime-gold);
-        }
-        
-        .chatbot-icon {
-            width: 65px;
-            height: 65px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            color: white;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 10px;
-        }
-        
-        .chatbot-icon:hover {
-            transform: scale(1.15) rotate(10deg);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-        }
-        
-        .whatsapp-button {
-            width: 55px;
-            height: 55px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-        
-        .whatsapp-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
-            color: white;
-        }
-        
-        /* Scroll to Top Button */
-        .scroll-to-top {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--prime-dark);
-            color: var(--prime-gold);
-            border: 2px solid var(--prime-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 0;
-            visibility: hidden;
-            z-index: 999;
-        }
-        
-        .scroll-to-top.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .scroll-to-top:hover {
-            background: var(--prime-gold);
-            color: var(--prime-dark);
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
-        }
-        
-        /* Close button for bubble */
-        .bubble-close {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            width: 20px;
-            height: 20px;
-            background: var(--prime-dark);
-            color: var(--prime-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            cursor: pointer;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .chatbot-bubble:hover .bubble-close {
-            opacity: 1;
-        }
-
-        /* Lazy Loading Styles */
-        .lazy-loading {
-            transition: opacity 0.3s ease;
-            filter: blur(1px);
-        }
-
-        .lazy-loaded {
-            filter: blur(0);
-        }
-
-        .has-placeholder {
-            filter: blur(2px);
-        }
-
-        .lazy-error {
-            opacity: 0.7;
-            filter: grayscale(100%);
-        }
-
-        /* Image Loading Spinner */
-        .image-loader {
-            pointer-events: none;
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            position: relative;
-        }
-
-        .spinner-ring {
-            width: 100%;
-            height: 100%;
-            border: 3px solid var(--prime-light-gray);
-            border-top: 3px solid var(--prime-gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Component Loading Animation */
-        .component-loader {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .loading-dots {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 1rem;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            background: var(--prime-gold);
-            border-radius: 50%;
-            animation: loadingDots 1.4s infinite ease-in-out both;
-        }
-
-        .dot:nth-child(1) { animation-delay: -0.32s; }
-        .dot:nth-child(2) { animation-delay: -0.16s; }
-        .dot:nth-child(3) { animation-delay: 0s; }
-
-        @keyframes loadingDots {
-            0%, 80%, 100% {
-                transform: scale(0);
-                opacity: 0.5;
-            }
-            40% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Component fade-in animation */
-        .component-loaded {
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Mobile Lazy Loading Optimizations */
-        @media (max-width: 768px) {
-            .lazy-loading {
-                /* Reduce blur effect on mobile for better performance */
-                filter: blur(0.5px);
-            }
-
-            .has-placeholder {
-                filter: blur(1px);
-            }
-
-            .image-loader {
-                /* Smaller loader on mobile */
-                transform: scale(0.8);
-            }
-        }
-
-        /* Reduced motion support for lazy loading */
-        @media (prefers-reduced-motion: reduce) {
-            .lazy-loading,
-            .lazy-loaded,
-            .has-placeholder,
-            .component-loaded,
-            .image-loader,
-            .component-loader {
-                animation: none !important;
-                transition: none !important;
-                filter: none !important;
-            }
-        }
-
-        /* Performance optimizations for slow connections */
-        @media (max-width: 576px) and (max-height: 600px) {
-            /* Extra small screens - prioritize above the fold content */
-            .lazy-loading:not(.above-fold) {
-                /* Delay loading for below-fold images on small screens */
-                transition-delay: 0.2s;
-            }
-        }
-        
-        /* Mobile adjustments */
-        @media (max-width: 768px) {
-            .chatbot-container {
-                bottom: 20px;
-                right: 20px;
-            }
-            
-            .chatbot-bubble {
-                max-width: 240px;
-                font-size: 14px;
-            }
-            
-            .chatbot-icon {
-                width: 55px;
-                height: 55px;
-                font-size: 25px;
-            }
-            
-            .whatsapp-button {
-                width: 48px;
-                height: 48px;
-                font-size: 24px;
-            }
-            
-            .scroll-to-top {
-                bottom: 20px;
-                left: 20px;
-                width: 45px;
-                height: 45px;
-            }
-        }
-    </style>
-</head>
+    ]
+];
+
+include 'includes/site-head.php';
+?>
 <body>
     <!-- Skip Link for Screen Readers -->
     <a href="#main-content" class="skip-link">Ana içeriğe geç</a>
 
     <?php include 'includes/navbar.php'; ?>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero-section" role="banner" aria-label="Ana kahraman bölümü">
-        <main id="main-content">
+    <main id="main-content" tabindex="-1">
+        <!-- Hero Section -->
+        <section id="home" class="hero-section" role="banner" aria-label="Ana kahraman bölümü">
         <?php
         $media_type = $hero['media_type'] ?? 'video';
         $media_path = $hero['media_path'] ?? '';
@@ -2039,597 +789,262 @@ try {
 
     <!-- Scripts -->
     <?php include 'includes/scripts.php'; ?>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    
+
     <script>
-        // Initialize AOS
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-        
-        // Show sticky CTA and scroll button after scroll
-        window.addEventListener('scroll', function() {
-            const stickyCTA = document.getElementById('stickyCTA');
-            const scrollBtn = document.getElementById('scrollToTop');
-            
-            if (window.scrollY > 500) {
-                stickyCTA.classList.add('show');
-            } else {
-                stickyCTA.classList.remove('show');
-            }
-            
-            // Show/hide scroll to top button
-            if (window.scrollY > 300) {
-                scrollBtn.classList.add('show');
-            } else {
-                scrollBtn.classList.remove('show');
-            }
-        });
-        
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
+        (function () {
+            const doc = document;
+
+            function shareOnSocialMedia(platform, url, title = 'Prime EMS Studios İzmir') {
+                const encodedUrl = encodeURIComponent(url);
+                const encodedTitle = encodeURIComponent(title);
+                let shareUrl = '';
+
+                switch (platform) {
+                    case 'facebook':
+                        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+                        break;
+                    case 'twitter':
+                        shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
+                        break;
+                    case 'linkedin':
+                        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+                        break;
+                    case 'whatsapp':
+                        shareUrl = `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`;
+                        break;
                 }
-            });
-        });
-        
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
-        
-        // Chatbot functions
-        function startChat() {
-            // Chatbot sayfasını popup olarak aç
-            const width = 500;
-            const height = 700;
-            const left = (screen.width - width) / 2;
-            const top = (screen.height - height) / 2;
-            
-            window.open(
-                'chatbot.php',
-                'PrimeEMSChatbot',
-                `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,directories=no,status=no`
-            );
-        }
-        
-        function hideBubble() {
-            const bubble = document.getElementById('chatbotBubble');
-            bubble.style.display = 'none';
-            
-            // Bubble'ı 30 saniye sonra tekrar göster
-            setTimeout(() => {
-                bubble.style.display = 'flex';
-            }, 30000);
-        }
-        
-        // Bubble'ı sayfa yüklendikten 5 saniye sonra göster
-        window.addEventListener('load', function() {
-            setTimeout(() => {
-                const bubble = document.getElementById('chatbotBubble');
-                if (bubble) {
-                    bubble.style.display = 'flex';
-                    
-                    // 10 saniye sonra otomatik gizle
-                    setTimeout(() => {
-                        if (!sessionStorage.getItem('bubbleHidden')) {
-                            bubble.style.animation = 'fadeOut 0.5s ease';
-                            setTimeout(() => {
-                                bubble.style.display = 'none';
-                                sessionStorage.setItem('bubbleHidden', 'true');
-                            }, 500);
-                        }
-                    }, 10000);
-                }
-            }, 5000);
-        });
-        
-        // Chatbot bubble click event
-        document.getElementById('chatbotBubble').addEventListener('click', function(e) {
-            if (!e.target.classList.contains('bubble-close')) {
-                startChat();
-            }
-        });
-        
-        // Social Media Sharing
-        function shareOnSocialMedia(platform, url, title = 'Prime EMS Studios İzmir') {
-            const encodedUrl = encodeURIComponent(url);
-            const encodedTitle = encodeURIComponent(title);
-            let shareUrl = '';
 
-            switch(platform) {
-                case 'facebook':
-                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-                    break;
-                case 'twitter':
-                    shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`;
-                    break;
-                case 'linkedin':
-                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-                    break;
-                case 'whatsapp':
-                    shareUrl = `https://wa.me/?text=${encodedTitle}%20${encodedUrl}`;
-                    break;
-            }
-
-            if (shareUrl) {
-                window.open(shareUrl, '_blank', 'width=600,height=400');
-            }
-        }
-
-        // Share buttons event listeners
-        document.querySelectorAll('.share-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const platform = this.getAttribute('data-platform');
-                const url = this.getAttribute('data-url');
-                const title = 'Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç';
-                shareOnSocialMedia(platform, url, title);
-            });
-
-            // Keyboard navigation support
-            btn.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
-        });
-
-        // Enhanced keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            // Skip link activation
-            if (e.key === 's' && e.altKey) {
-                e.preventDefault();
-                const skipLink = document.querySelector('.skip-link');
-                if (skipLink) skipLink.focus();
-            }
-
-            // Focus management for modal-like elements
-            if (e.key === 'Escape') {
-                // Close any open modals or overlays if they exist
-                const activeElement = document.activeElement;
-                if (activeElement && activeElement.blur) {
-                    activeElement.blur();
+                if (shareUrl) {
+                    window.open(shareUrl, '_blank', 'width=600,height=400');
                 }
             }
-        });
 
-        // Lazy Loading Implementation
-        function initLazyLoading() {
-            const lazyImages = document.querySelectorAll('.lazy-loading');
+            function initLazyLoading() {
+                const lazyImages = doc.querySelectorAll('.lazy-loading');
 
-            if ('IntersectionObserver' in window) {
-                const imageObserver = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            const img = entry.target;
-                            const src = img.dataset.src;
+                if ('IntersectionObserver' in window) {
+                    const imageObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const img = entry.target;
+                                const src = img.dataset.src;
 
-                            if (src) {
-                                img.src = src;
-                                img.classList.remove('lazy-loading');
-                                img.classList.add('lazy-loaded');
+                                if (src) {
+                                    img.src = src;
+                                    img.classList.remove('lazy-loading');
+                                    img.classList.add('lazy-loaded');
 
-                                // Remove placeholder after loading
-                                img.addEventListener('load', function() {
-                                    img.classList.remove('has-placeholder');
-                                });
+                                    img.addEventListener('load', () => {
+                                        img.classList.remove('has-placeholder');
+                                    });
 
-                                observer.unobserve(img);
+                                    observer.unobserve(img);
+                                }
                             }
-                        }
+                        });
+                    }, {
+                        rootMargin: '50px 0px',
+                        threshold: 0.1
                     });
-                }, {
-                    rootMargin: '50px 0px',
-                    threshold: 0.1
-                });
 
-                lazyImages.forEach(img => imageObserver.observe(img));
-            } else {
-                // Fallback for browsers without IntersectionObserver
-                lazyImages.forEach(img => {
-                    img.src = img.dataset.src;
-                    img.classList.remove('lazy-loading');
-                    img.classList.add('lazy-loaded');
-                });
-            }
-        }
-
-        // WebP Support Detection and Fallback
-        function supportsWebP() {
-            return new Promise((resolve) => {
-                const webP = new Image();
-                webP.onload = webP.onerror = () => {
-                    resolve(webP.height === 2);
-                };
-                webP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
-            });
-        }
-
-        // Image Optimization and Error Handling
-        function optimizeDeviceImages() {
-            const deviceImages = document.querySelectorAll('.device-image');
-
-            deviceImages.forEach(img => {
-                // Add loading class
-                img.classList.add('has-placeholder');
-
-                // Error handling
-                img.addEventListener('error', function() {
-                    this.classList.add('fallback-image');
-                    this.src = 'assets/images/device-placeholder.jpg';
-                });
-
-                // Load event
-                img.addEventListener('load', function() {
-                    this.classList.remove('lazy-loading', 'has-placeholder');
-                    this.classList.add('lazy-loaded');
-                });
-            });
-        }
-
-        // Initialize Image Features
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize lazy loading
-            initLazyLoading();
-
-            // Initialize image optimization
-            optimizeDeviceImages();
-
-            // WebP detection and optimization
-            supportsWebP().then(supported => {
-                if (supported) {
-                    console.log('WebP supported - using optimized images');
+                    lazyImages.forEach(img => imageObserver.observe(img));
                 } else {
-                    console.log('WebP not supported - using fallback images');
+                    lazyImages.forEach(img => {
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy-loading');
+                        img.classList.add('lazy-loaded');
+                    });
+                }
+            }
+
+            function supportsWebP() {
+                return new Promise(resolve => {
+                    const webP = new Image();
+                    webP.onload = webP.onerror = () => {
+                        resolve(webP.height === 2);
+                    };
+                    webP.src = "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA";
+                });
+            }
+
+            function optimizeDeviceImages() {
+                const deviceImages = doc.querySelectorAll('.device-image');
+
+                deviceImages.forEach(img => {
+                    img.classList.add('has-placeholder');
+
+                    img.addEventListener('error', function () {
+                        this.classList.add('fallback-image');
+                        this.src = 'assets/images/device-placeholder.jpg';
+                    });
+
+                    img.addEventListener('load', function () {
+                        this.classList.remove('lazy-loading', 'has-placeholder');
+                        this.classList.add('lazy-loaded');
+                    });
+                });
+            }
+
+            document.addEventListener('keydown', event => {
+                if (event.key === 's' && event.altKey) {
+                    event.preventDefault();
+                    const skipLink = doc.querySelector('.skip-link');
+                    if (skipLink) {
+                        skipLink.focus();
+                    }
+                }
+
+                if (event.key === 'Escape') {
+                    const activeElement = doc.activeElement;
+                    if (activeElement && activeElement.blur) {
+                        activeElement.blur();
+                    }
                 }
             });
 
-            const contactForm = document.getElementById('contactForm');
-            const messageTextarea = document.getElementById('message');
-            const charCount = document.getElementById('charCount');
-            const submitBtn = document.getElementById('submitBtn');
-            const formMessages = document.getElementById('formMessages');
-            
-            // Character count for message
-            if (messageTextarea && charCount) {
-                messageTextarea.addEventListener('input', function() {
-                    charCount.textContent = this.value.length;
-                    
-                    if (this.value.length > 2000) {
-                        this.classList.add('is-invalid');
-                        this.setCustomValidity('Mesaj 2000 karakterden uzun olamaz.');
-                    } else if (this.value.length < 10 && this.value.length > 0) {
-                        this.classList.add('is-invalid');
-                        this.setCustomValidity('Mesaj en az 10 karakter olmalıdır.');
-                    } else {
-                        this.classList.remove('is-invalid');
-                        this.setCustomValidity('');
-                    }
+            document.addEventListener('DOMContentLoaded', () => {
+                initLazyLoading();
+                optimizeDeviceImages();
+
+                supportsWebP().then(supported => {
+                    const message = supported ? 'WebP supported - using optimized images' : 'WebP not supported - using fallback images';
+                    console.log(message);
                 });
-            }
-            
-            // Form submission
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    if (!contactForm.checkValidity()) {
-                        contactForm.classList.add('was-validated');
-                        return;
-                    }
-                    
-                    // Show loading state
-                    submitBtn.disabled = true;
-                    submitBtn.querySelector('.submit-text').classList.add('d-none');
-                    submitBtn.querySelector('.loading-text').classList.remove('d-none');
-                    
-                    // Clear previous messages
-                    formMessages.innerHTML = '';
-                    
-                    // Prepare form data
-                    const formData = new FormData(contactForm);
-                    
-                    // Send form data
-                    fetch('contact-form.php', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Show success message
-                            formMessages.innerHTML = `
-                                <div class="alert alert-success" role="alert">
-                                    <i class="bi bi-check-circle me-2"></i>${data.message}
-                                </div>
-                            `;
-                            
-                            // Reset form
-                            contactForm.reset();
-                            contactForm.classList.remove('was-validated');
-                            charCount.textContent = '0';
-                            
-                            // Scroll to success message
-                            formMessages.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                            
-                        } else {
-                            // Show error message
-                            let errorHtml = `
-                                <div class="alert alert-danger" role="alert">
-                                    <i class="bi bi-exclamation-circle me-2"></i>${data.message}
-                                </div>
-                            `;
-                            
-                            // Show field-specific errors
-                            if (data.errors) {
-                                Object.keys(data.errors).forEach(field => {
-                                    const fieldElement = document.getElementById(field);
-                                    if (fieldElement) {
-                                        fieldElement.classList.add('is-invalid');
-                                        const feedback = fieldElement.parentNode.querySelector('.invalid-feedback');
-                                        if (feedback) {
-                                            feedback.textContent = data.errors[field];
-                                        }
-                                    }
-                                });
-                                
-                                contactForm.classList.add('was-validated');
-                            }
-                            
-                            formMessages.innerHTML = errorHtml;
+
+                doc.querySelectorAll('.share-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const platform = btn.getAttribute('data-platform');
+                        const url = btn.getAttribute('data-url');
+                        const title = 'Prime EMS Studios İzmir — 20 Dakikada Maksimum Sonuç';
+                        shareOnSocialMedia(platform, url, title);
+                    });
+
+                    btn.addEventListener('keydown', event => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            btn.click();
                         }
-                    })
-                    .catch(error => {
-                        console.error('Form submission error:', error);
-                        formMessages.innerHTML = `
-                            <div class="alert alert-danger" role="alert">
-                                <i class="bi bi-exclamation-circle me-2"></i>Bir hata oluştu. Lütfen daha sonra tekrar deneyin.
-                            </div>
-                        `;
-                    })
-                    .finally(() => {
-                        // Reset loading state
-                        submitBtn.disabled = false;
-                        submitBtn.querySelector('.submit-text').classList.remove('d-none');
-                        submitBtn.querySelector('.loading-text').classList.add('d-none');
                     });
                 });
-                
-                // Real-time validation
-                const inputs = contactForm.querySelectorAll('input, select, textarea');
-                inputs.forEach(input => {
-                    input.addEventListener('blur', function() {
-                        if (this.checkValidity()) {
-                            this.classList.remove('is-invalid');
-                            this.classList.add('is-valid');
-                        } else {
-                            this.classList.remove('is-valid');
+
+                const contactForm = doc.getElementById('contactForm');
+                const messageTextarea = doc.getElementById('message');
+                const charCount = doc.getElementById('charCount');
+                const submitBtn = doc.getElementById('submitBtn');
+                const formMessages = doc.getElementById('formMessages');
+
+                if (messageTextarea && charCount) {
+                    messageTextarea.addEventListener('input', function () {
+                        charCount.textContent = this.value.length;
+
+                        if (this.value.length > 2000) {
                             this.classList.add('is-invalid');
-                        }
-                    });
-                    
-                    input.addEventListener('input', function() {
-                        if (this.classList.contains('is-invalid') && this.checkValidity()) {
+                            this.setCustomValidity('Mesaj 2000 karakterden uzun olamaz.');
+                        } else if (this.value.length < 10 && this.value.length > 0) {
+                            this.classList.add('is-invalid');
+                            this.setCustomValidity('Mesaj en az 10 karakter olmalıdır.');
+                        } else {
                             this.classList.remove('is-invalid');
-                            this.classList.add('is-valid');
+                            this.setCustomValidity('');
                         }
                     });
-                });
-            }
-        });
+                }
+
+                if (contactForm) {
+                    contactForm.addEventListener('submit', event => {
+                        event.preventDefault();
+
+                        if (!contactForm.checkValidity()) {
+                            contactForm.classList.add('was-validated');
+                            return;
+                        }
+
+                        submitBtn.disabled = true;
+                        submitBtn.querySelector('.submit-text').classList.add('d-none');
+                        submitBtn.querySelector('.loading-text').classList.remove('d-none');
+                        formMessages.innerHTML = '';
+
+                        const formData = new FormData(contactForm);
+
+                        fetch('contact-form.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    formMessages.innerHTML = `
+                                        <div class="alert alert-success" role="alert">
+                                            <i class="bi bi-check-circle me-2"></i>${data.message}
+                                        </div>
+                                    `;
+
+                                    contactForm.reset();
+                                    contactForm.classList.remove('was-validated');
+                                    charCount.textContent = '0';
+                                    formMessages.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                } else {
+                                    let errorHtml = `
+                                        <div class="alert alert-danger" role="alert">
+                                            <i class="bi bi-exclamation-circle me-2"></i>${data.message}
+                                        </div>
+                                    `;
+
+                                    if (data.errors) {
+                                        Object.keys(data.errors).forEach(field => {
+                                            const fieldElement = doc.getElementById(field);
+                                            if (fieldElement) {
+                                                fieldElement.classList.add('is-invalid');
+                                                const feedback = fieldElement.parentNode.querySelector('.invalid-feedback');
+                                                if (feedback) {
+                                                    feedback.textContent = data.errors[field];
+                                                }
+                                            }
+                                        });
+
+                                        contactForm.classList.add('was-validated');
+                                    }
+
+                                    formMessages.innerHTML = errorHtml;
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Form submission error:', error);
+                                formMessages.innerHTML = `
+                                    <div class="alert alert-danger" role="alert">
+                                        <i class="bi bi-exclamation-circle me-2"></i>Bir hata oluştu. Lütfen daha sonra tekrar deneyin.
+                                    </div>
+                                `;
+                            })
+                            .finally(() => {
+                                submitBtn.disabled = false;
+                                submitBtn.querySelector('.submit-text').classList.remove('d-none');
+                                submitBtn.querySelector('.loading-text').classList.add('d-none');
+                            });
+                    });
+
+                    const inputs = contactForm.querySelectorAll('input, select, textarea');
+                    inputs.forEach(input => {
+                        input.addEventListener('blur', function () {
+                            if (this.checkValidity()) {
+                                this.classList.remove('is-invalid');
+                                this.classList.add('is-valid');
+                            } else {
+                                this.classList.remove('is-valid');
+                                this.classList.add('is-invalid');
+                            }
+                        });
+
+                        input.addEventListener('input', function () {
+                            if (this.classList.contains('is-invalid') && this.checkValidity()) {
+                                this.classList.remove('is-invalid');
+                                this.classList.add('is-valid');
+                            }
+                        });
+                    });
+                }
+            });
+        }());
     </script>
-    
-    <style>
-        /* Animation for chatbot bubble */
-        @keyframes fadeOut {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-        
-        /* Hero CTA Buttons */
-        .hero-cta-primary {
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(255, 215, 0, 0.4);
-            background: var(--prime-gradient);
-            border: none;
-            padding: 16px 32px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            letter-spacing: 0.5px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .hero-cta-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
-        }
-
-        .hero-cta-primary:hover::before {
-            left: 100%;
-        }
-
-        .hero-cta-primary:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.6);
-        }
-
-        .hero-cta-primary:active {
-            transform: translateY(-2px) scale(1.02);
-        }
-
-        .hero-cta-secondary {
-            backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.15);
-            border: 2px solid rgba(255, 215, 0, 0.9);
-            position: relative;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-        }
-
-        .hero-cta-secondary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.3));
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .hero-cta-secondary::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 215, 0, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s ease, height 0.6s ease;
-        }
-
-        .hero-cta-secondary:hover::before {
-            opacity: 1;
-        }
-
-        .hero-cta-secondary:hover::after {
-            width: 300px;
-            height: 300px;
-        }
-
-        .hero-cta-secondary:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: translateY(-4px) scale(1.03);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
-            color: var(--prime-dark);
-        }
-
-        .hero-cta-secondary:active {
-            transform: translateY(-2px) scale(1.01);
-        }
-
-        /* Contact Form Styles */
-        .contact-form-wrapper {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-        }
-        
-        .contact-form .form-control,
-        .contact-form .form-select {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            transition: all 0.3s ease;
-        }
-        
-        .contact-form .form-control:focus,
-        .contact-form .form-select:focus {
-            background: rgba(255, 255, 255, 1);
-            border-color: var(--prime-gold);
-            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
-        }
-        
-        .contact-form .form-control.is-valid,
-        .contact-form .form-select.is-valid {
-            border-color: #198754;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='m2.3 6.73.53.53c.27.27.71.27.98 0l2.86-2.86c.27-.27.27-.71 0-.98L6.17 2.89c-.27-.27-.71-.27-.98 0L3.91 4.18 2.64 2.91c-.27-.27-.71-.27-.98 0L1.13 3.43c-.27.27-.27.71 0 .98l1.17 2.32Z'/%3e%3c/svg%3e");
-        }
-        
-        .contact-form .form-control.is-invalid,
-        .contact-form .form-select.is-invalid {
-            border-color: #dc3545;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath d='m5.8 4.6 2.4 2.4m0-2.4L5.8 7'/%3e%3c/svg%3e");
-        }
-        
-        .contact-form .form-check-input:checked {
-            background-color: var(--prime-gold);
-            border-color: var(--prime-gold);
-        }
-        
-        .contact-form .form-check-input:focus {
-            border-color: var(--prime-gold);
-            box-shadow: 0 0 0 0.2rem rgba(255, 215, 0, 0.25);
-        }
-        
-        .contact-form .btn-prime {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .contact-form .btn-prime:disabled {
-            opacity: 0.8;
-        }
-        
-        /* Spinning animation */
-        .spin {
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        /* Form validation feedback */
-        .contact-form .invalid-feedback {
-            display: block;
-            color: #ff6b6b;
-            font-weight: 500;
-        }
-        
-        .contact-form .valid-feedback {
-            display: block;
-            color: #51cf66;
-            font-weight: 500;
-        }
-        
-        /* Alert messages */
-        #formMessages .alert {
-            border-radius: 10px;
-            border: none;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .contact-form-wrapper {
-                padding: 1.5rem;
-                margin-top: 2rem;
-            }
-        }
-    </style>
 </body>
 </html>

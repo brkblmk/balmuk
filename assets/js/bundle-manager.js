@@ -29,6 +29,16 @@ class BundleManager {
         this.init();
     }
 
+    elementExists(tagName, attribute, value) {
+        const elements = document.getElementsByTagName(tagName);
+        for (let i = 0; i < elements.length; i += 1) {
+            if (elements[i].getAttribute(attribute) === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Critical CSS'yi preload et
     preloadCriticalResources() {
         // Preload critical CSS
@@ -48,6 +58,9 @@ class BundleManager {
 
     // Preload link oluştur
     createPreloadLink(href, as) {
+        if (this.elementExists('link', 'href', href)) {
+            return;
+        }
         const link = document.createElement('link');
         link.rel = 'preload';
         link.as = as;
@@ -73,6 +86,9 @@ class BundleManager {
 
     // CSS yükleme
     loadCSS(href, isCritical = false) {
+        if (this.elementExists('link', 'href', href)) {
+            return;
+        }
         const link = document.createElement('link');
         link.rel = 'stylesheet';
         link.href = href;
@@ -112,6 +128,9 @@ class BundleManager {
 
     // JS yükleme
     loadJS(src, isCritical = false) {
+        if (this.elementExists('script', 'src', src)) {
+            return;
+        }
         const script = document.createElement('script');
         script.src = src;
 
@@ -137,6 +156,9 @@ class BundleManager {
         ];
 
         hints.forEach(hint => {
+            if (this.elementExists('link', 'href', hint.href)) {
+                return;
+            }
             const link = document.createElement('link');
             link.rel = hint.rel;
             link.href = hint.href;

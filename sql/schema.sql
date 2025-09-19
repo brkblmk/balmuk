@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS prime_ems_new;
+USE prime_ems_new;
+CREATE TABLE IF NOT EXISTS users (id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255));
+-- vb.
