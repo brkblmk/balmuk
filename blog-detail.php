@@ -1,6 +1,9 @@
 <?php
 require_once 'config/database.php';
 
+// Türkçe tarih formatı için locale ayarla
+setlocale(LC_TIME, 'tr_TR');
+
 // Slug parametresini al
 $slug = $_GET['slug'] ?? '';
 
@@ -31,14 +34,16 @@ try {
     // Görüntülenme sayısını artır
     $pdo->prepare("UPDATE blog_posts SET view_count = view_count + 1 WHERE id = ?")->execute([$post['id']]);
     
-    // Etiketleri çek
-    $tags_stmt = $pdo->prepare("
-        SELECT t.* FROM blog_tags t
-        JOIN blog_post_tags pt ON t.id = pt.tag_id
-        WHERE pt.post_id = ?
-    ");
-    $tags_stmt->execute([$post['id']]);
-    $tags = $tags_stmt->fetchAll();
+    // Etiketleri çek (blog_posts tablosundan)
+    $tags = [];
+    if (!empty($post['tags'])) {
+        $tag_strings = array_map('trim', explode(',', $post['tags']));
+        foreach ($tag_strings as $tag_name) {
+            if (!empty($tag_name)) {
+                $tags[] = ['name' => $tag_name, 'slug' => strtolower(str_replace(' ', '-', $tag_name))];
+            }
+        }
+    }
     
     // İlgili yazıları çek
     $related_stmt = $pdo->prepare("
@@ -292,8 +297,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_comment'])) {
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/" class="text-white-50">Ana Sayfa</a></li>
                     <li class="breadcrumb-item"><a href="blog.php" class="text-white-50">Blog</a></li>
-                    <?php if ($post['category_name']): ?>
-                    <li class="breadcrumb-item"><a href="blog.php?category=<?php echo $post['category_slug']; ?>" class="text-white-50"><?php echo htmlspecialchars($post['category_name']); ?></a></li>
+                    <?php if ($post['category_name'] && $post['category_slug']): ?>
+                    <li class="breadcrumb-item"><a href="blog.php?category=<?php echo htmlspecialchars($post['category_slug']); ?>" class="text-white-50"><?php echo htmlspecialchars($post['category_name']); ?></a></li>
                     <?php endif; ?>
                     <li class="breadcrumb-item active text-white" aria-current="page"><?php echo htmlspecialchars($post['title']); ?></li>
                 </ol>
