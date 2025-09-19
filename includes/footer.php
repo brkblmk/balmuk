@@ -111,7 +111,7 @@ $quick_links = [
                 
                 <!-- İletişim Bilgileri -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="footer-widget">
+                    <div id="contact" class="footer-widget">
                         <h5 class="widget-title">İletişim</h5>
                         <div class="contact-info">
                             <p><i class="bi bi-geo-alt-fill contact-icon"></i> <?php echo htmlspecialchars($contact_address); ?></p>
@@ -119,9 +119,17 @@ $quick_links = [
                             <p><i class="bi bi-envelope-fill contact-icon"></i> <a href="mailto:<?php echo htmlspecialchars($contact_email); ?>"><?php echo htmlspecialchars($contact_email); ?></a></p>
                             <p><i class="bi bi-clock-fill contact-icon"></i> Pzt-Cmt: <?php echo htmlspecialchars($working_hours_weekday); ?>, Pzr: <?php echo htmlspecialchars($working_hours_weekend); ?></p>
                         </div>
-                        <a href="https://wa.me/<?php echo str_replace(['+', ' '], '', $contact_whatsapp); ?>?text=Prime%20EMS%20hakkında%20bilgi%20almak%20istiyorum" target="_blank" class="btn btn-success btn-sm">
-                            <i class="bi bi-whatsapp me-2"></i>WhatsApp
-                        </a>
+                        <div class="d-flex gap-2 flex-wrap">
+                            <a href="https://wa.me/<?php echo str_replace(['+', ' '], '', $contact_whatsapp); ?>?text=Prime%20EMS%20hakkında%20bilgi%20almak%20istiyorum" target="_blank" class="btn btn-success btn-sm">
+                                <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                            </a>
+                            <a href="tel:<?php echo $contact_phone; ?>" class="btn btn-prime btn-sm">
+                                <i class="bi bi-telephone me-1"></i> Ara
+                            </a>
+                            <a href="mailto:<?php echo $contact_email; ?>" class="btn btn-outline-light btn-sm">
+                                <i class="bi bi-envelope me-1"></i> E-posta
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
