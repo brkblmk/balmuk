@@ -23,6 +23,7 @@ access_log
 
 # Database Files
 *.sql
+!sql/schema.sql
 *.sqlite
 *.db
 database/

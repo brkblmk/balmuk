@@ -616,6 +616,65 @@ try {
                 background-attachment: scroll;
             }
         }
+
+        /* Futuristic enhancements */
+        .hero-section {
+            position: relative;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(30, 64, 175, 0.85));
+            color: #f8fafc;
+            overflow: hidden;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.2), transparent 55%);
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('assets/images/hero-bg.svg') center/cover no-repeat;
+            opacity: 0.15;
+        }
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+        }
+        .article-card {
+            background: linear-gradient(160deg, rgba(255, 255, 255, 0.92), rgba(226, 232, 240, 0.8));
+            border-radius: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(6px);
+        }
+        .article-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.15);
+        }
+        .article-card .card-title a {
+            color: #0f172a;
+        }
+        .article-card .card-title a:hover {
+            color: #2563eb;
+        }
+        .blog-hero-meta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            color: rgba(226, 232, 240, 0.85);
+        }
+        .blog-hero-meta span {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        @media (max-width: 767.98px) {
+            .hero-section {
+                text-align: center;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -632,10 +691,15 @@ try {
                     Prime EMS Blog<br>
                     <span style="color: var(--prime-gold);">Uzman İçerikler</span>
                 </h1>
-                <p class="lead mb-5">
+                <p class="lead mb-4">
                     EMS teknolojisi, fitness, beslenme ve wellness konularında uzman yazılar<br>
                     <strong>20 dakikalık bilimsel antrenman yöntemleri</strong>
                 </p>
+                  <div class="blog-hero-meta">
+                      <span><i class="bi bi-lightning-charge-fill"></i> <?php echo number_format($total_posts); ?>+ içerik</span>
+                      <span><i class="bi bi-people-fill"></i> Uzman eğitmen görüşleri</span>
+                      <span><i class="bi bi-graph-up"></i> Güncel bilimsel araştırmalar</span>
+                  </div>
                 <div class="d-flex justify-content-center gap-3 flex-wrap">
                     <a href="#blog-posts" class="btn btn-prime btn-lg pulse-effect hero-cta-primary" role="button" aria-label="Blog yazılarını görüntüleyin">
                         <i class="bi bi-newspaper" aria-hidden="true"></i> Yazıları Oku
@@ -673,7 +737,7 @@ try {
                         <?php if ($posts): ?>
                             <?php foreach ($posts as $index => $post): ?>
                             <div class="col-md-6 mb-4" data-aos="fade-up" data-aos-delay="<?php echo ($index % 4 + 1) * 100; ?>">
-                                <div class="blog-card h-100">
+                                <div class="blog-card h-100 article-card">
                                     <div class="position-relative">
                                         <?php if ($post['featured_image']): ?>
                                               <?php echo PerformanceOptimizer::optimizeImage($post['featured_image'], htmlspecialchars($post['title']), 'card-img-top', 'lazy'); ?>

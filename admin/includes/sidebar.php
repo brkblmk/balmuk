@@ -112,6 +112,13 @@
             </li>
             
             <li class="nav-item">
+                <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'payments.php' ? 'active' : ''; ?>" href="payments.php">
+                    <i class="bi bi-cash-stack"></i>
+                    <span>Ödeme Kayıtları</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'trainers.php' ? 'active' : ''; ?>" href="trainers.php">
                     <i class="bi bi-person-badge-fill"></i>
                     <span>Eğitmenler</span>
