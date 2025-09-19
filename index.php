@@ -55,6 +55,11 @@ try {
     $stmt->execute();
     $testimonials = $stmt->fetchAll();
 
+    // FAQs
+    $stmt = $pdo->prepare("SELECT question, answer, category FROM faqs WHERE is_active = 1 ORDER BY sort_order ASC LIMIT 8");
+    $stmt->execute();
+    $faqs = $stmt->fetchAll();
+
     // Sayfa render işlemini logla
     error_log("Homepage rendered successfully - " . date('Y-m-d H:i:s'));
 
@@ -83,6 +88,7 @@ try {
     $featured_services = [];
     $stats = [];
     $testimonials = [];
+    $faqs = [];
 }
 
 SecurityUtils::generateCSRFToken();
@@ -600,6 +606,48 @@ include 'includes/site-head.php';
             <?php endif; ?>
         </div>
     </section>
+
+    <?php if (!empty($faqs)): ?>
+    <section id="faq" class="prime-section faq-section futuristic-gradient">
+        <div class="container">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-5" data-aos="fade-right">
+                    <div class="faq-intro-card">
+                        <span class="badge rounded-pill bg-warning text-dark mb-3"><i class="bi bi-stars me-1"></i> Sık Sorulan Sorular</span>
+                        <h2 class="display-5 fw-bold text-white mb-3">Prime EMS Teknolojisi Hakkında Merak Ettikleriniz</h2>
+                        <p class="lead text-white-50">Bilimsel WB-EMS yaklaşımımız, kişiye özel programlarımız ve üyelik süreçlerimiz hakkında en çok sorulan soruları yanıtladık.</p>
+                        <ul class="list-unstyled text-white-50 mt-4">
+                            <li class="d-flex align-items-center mb-3"><i class="bi bi-cpu me-2 text-warning"></i>Yapay zekâ destekli antrenman planlaması</li>
+                            <li class="d-flex align-items-center mb-3"><i class="bi bi-activity me-2 text-warning"></i>24 elektrotlu i-motion & i-model entegrasyonu</li>
+                            <li class="d-flex align-items-center"><i class="bi bi-shield-check me-2 text-warning"></i>CE sertifikalı medikal güvenlik protokolleri</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-7" data-aos="fade-left">
+                    <div class="accordion accordion-flush neon-accordion" id="faqAccordion">
+                        <?php foreach ($faqs as $index => $faq): ?>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="faq-heading-<?php echo $index; ?>">
+                                <button class="accordion-button <?php echo $index !== 0 ? 'collapsed' : ''; ?>" type="button" data-bs-toggle="collapse" data-bs-target="#faq-item-<?php echo $index; ?>" aria-expanded="<?php echo $index === 0 ? 'true' : 'false'; ?>" aria-controls="faq-item-<?php echo $index; ?>">
+                                    <div>
+                                        <span class="faq-category badge bg-primary-subtle text-primary me-2"><?php echo htmlspecialchars($faq['category'] ?? 'Genel'); ?></span>
+                                        <?php echo htmlspecialchars($faq['question']); ?>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="faq-item-<?php echo $index; ?>" class="accordion-collapse collapse <?php echo $index === 0 ? 'show' : ''; ?>" aria-labelledby="faq-heading-<?php echo $index; ?>" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    <?php echo nl2br(htmlspecialchars($faq['answer'])); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php endif; ?>
 
     <!-- Contact Section -->
     <section id="contact" class="prime-section prime-section-dark">

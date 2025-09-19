@@ -706,3 +706,51 @@ body {
 @media (prefers-color-scheme: dark) {
     /* Dark theme styles can be added here */
 }
+/* Gradient cards for member profile */
+.gradient-card {
+    position: relative;
+    color: #fff;
+    border: none;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1f2933, #111827);
+}
+
+.gradient-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(255,255,255,0.2), transparent 55%);
+    pointer-events: none;
+}
+
+.gradient-card .card-body {
+    position: relative;
+    z-index: 2;
+}
+
+.gradient-card-primary {
+    background: linear-gradient(135deg, #2e3192, #1bffff);
+}
+
+.gradient-card-success {
+    background: linear-gradient(135deg, #11998e, #38ef7d);
+}
+
+.gradient-card-warning {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    color: #1f2937;
+}
+
+.gradient-card-info {
+    background: linear-gradient(135deg, #536976, #292e49);
+}
+
+.gradient-card-warning .text-muted,
+.gradient-card-warning small {
+    color: rgba(31, 41, 55, 0.7) !important;
+}
+
+.card.border-0.shadow-sm.gradient-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+}

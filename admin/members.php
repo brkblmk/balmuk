@@ -1,12 +1,16 @@
 <?php
 require_once '../config/database.php';
 require_once '../config/security.php';
+require_once 'includes/member-helpers.php';
 
 // Admin kontrolü
 if (!isset($_SESSION['admin_logged_in'])) {
     header('Location: login.php');
     exit;
 }
+
+// Üyelik tablolarını garanti altına al
+ensureMemberManagementTables($pdo);
 
 // İşlemler
 $action = $_GET['action'] ?? 'list';
@@ -75,10 +79,14 @@ if ($action === 'delete' && isset($_GET['id'])) {
 
 // Üye düzenleme için veri çekme
 $editData = null;
+$editAggregates = null;
 if ($action === 'edit' && isset($_GET['id'])) {
     $stmt = $pdo->prepare("SELECT * FROM members WHERE id = ?");
     $stmt->execute([$_GET['id']]);
     $editData = $stmt->fetch();
+    if ($editData) {
+        $editAggregates = getMemberAggregates($pdo, (int)$editData['id']);
+    }
 }
 
 // Üyeleri listele - performans için LIMIT ve gerekli kolonlar
@@ -87,10 +95,23 @@ $limit = 50; // Sayfa başına 50 üye
 $offset = ($page - 1) * $limit;
 
 $stmt = $pdo->prepare("
-    SELECT id, member_code, first_name, last_name, phone, email,
-           membership_type, membership_end, remaining_sessions, is_active, created_at
-    FROM members
-    ORDER BY created_at DESC
+    SELECT m.id, m.member_code, m.first_name, m.last_name, m.phone, m.email,
+           m.membership_type, m.membership_end, m.remaining_sessions, m.is_active, m.created_at,
+           COALESCE(p.sessions_purchased, 0) AS sessions_purchased,
+           COALESCE(p.total_amount, 0) AS total_spent,
+            COALESCE(s.sessions_completed, 0) AS sessions_completed
+    FROM members m
+    LEFT JOIN (
+        SELECT member_id, SUM(sessions_purchased) AS sessions_purchased, SUM(amount) AS total_amount
+        FROM member_payments
+        GROUP BY member_id
+    ) p ON p.member_id = m.id
+    LEFT JOIN (
+        SELECT member_id, COUNT(*) AS sessions_completed
+        FROM member_sessions
+        GROUP BY member_id
+    ) s ON s.member_id = m.id
+    ORDER BY m.created_at DESC
     LIMIT ? OFFSET ?
 ");
 $stmt->execute([$limit, $offset]);
@@ -158,6 +179,28 @@ if (isset($_GET['message'])) {
                         <h5 class="mb-0"><?php echo $action === 'add' ? 'Yeni Üye Ekle' : 'Üye Düzenle'; ?></h5>
                     </div>
                     <div class="card-body">
+                        <?php if ($editAggregates): ?>
+                        <div class="alert alert-info bg-opacity-25 border-0 shadow-sm">
+                            <div class="row g-3 align-items-center">
+                                <div class="col-md-3">
+                                    <p class="text-muted small mb-1">Satın Alınan Seans</p>
+                                    <h5 class="mb-0"><?php echo number_format($editAggregates['sessions_purchased']); ?></h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted small mb-1">Tamamlanan Seans</p>
+                                    <h5 class="mb-0"><?php echo number_format($editAggregates['sessions_completed']); ?></h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted small mb-1">Toplam Harcama</p>
+                                    <h5 class="mb-0">₺<?php echo number_format($editAggregates['total_amount'], 2, ',', '.'); ?></h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="text-muted small mb-1">Son Ödeme</p>
+                                    <h5 class="mb-0"><?php echo $editAggregates['last_payment'] ? date('d.m.Y', strtotime($editAggregates['last_payment'])) : '-'; ?></h5>
+                                </div>
+                            </div>
+                        </div>
+                        <?php endif; ?>
                         <form method="POST">
                             <?php if ($editData): ?>
                             <input type="hidden" name="id" value="<?php echo $editData['id']; ?>">
@@ -291,10 +334,13 @@ if (isset($_GET['message'])) {
                                         <th>Telefon</th>
                                         <th>E-posta</th>
                                         <th>Üyelik Tipi</th>
-                                        <th>Kalan Seans</th>
+                                        <th>Satın Alınan Seans</th>
+                                        <th>Tamamlanan</th>
+                                        <th>Kalan</th>
+                                        <th>Toplam Harcama</th>
                                         <th>Üyelik Bitiş</th>
                                         <th>Durum</th>
-                                        <th width="150">İşlemler</th>
+                                        <th width="200">İşlemler</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -308,10 +354,31 @@ if (isset($_GET['message'])) {
                                         <td><?php echo htmlspecialchars($member['email'] ?? '-'); ?></td>
                                         <td><?php echo htmlspecialchars($member['membership_type'] ?? '-'); ?></td>
                                         <td>
-                                            <?php if ($member['remaining_sessions'] > 0): ?>
-                                            <span class="badge bg-success"><?php echo $member['remaining_sessions']; ?></span>
+                                            <?php if ($member['sessions_purchased'] > 0): ?>
+                                            <span class="badge bg-gradient bg-primary text-light"><?php echo number_format($member['sessions_purchased']); ?></span>
                                             <?php else: ?>
-                                            <span class="badge bg-danger">0</span>
+                                            <span class="badge bg-secondary-subtle text-secondary">0</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($member['sessions_completed'] > 0): ?>
+                                            <span class="badge bg-success"><?php echo number_format($member['sessions_completed']); ?></span>
+                                            <?php else: ?>
+                                            <span class="badge bg-secondary-subtle text-secondary">0</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            $ledgerRemaining = max(($member['sessions_purchased'] ?? 0) - ($member['sessions_completed'] ?? 0), 0);
+                                            $remainingVisual = max($ledgerRemaining, (int)($member['remaining_sessions'] ?? 0));
+                                            ?>
+                                            <span class="badge <?php echo $remainingVisual > 0 ? 'bg-info text-dark' : 'bg-danger'; ?>"><?php echo number_format($remainingVisual); ?></span>
+                                        </td>
+                                        <td>
+                                            <?php if ($member['total_spent'] > 0): ?>
+                                            <strong>₺<?php echo number_format($member['total_spent'], 2, ',', '.'); ?></strong>
+                                            <?php else: ?>
+                                            <span class="text-muted">-</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
@@ -338,10 +405,13 @@ if (isset($_GET['message'])) {
                                         </td>
                                         <td>
                                             <div class="btn-group" role="group">
-                                                <a href="?action=edit&id=<?php echo $member['id']; ?>" class="btn btn-sm btn-outline-primary">
+                                                <a href="member-profile.php?id=<?php echo $member['id']; ?>" class="btn btn-sm btn-outline-info" title="Üye profilini görüntüle">
+                                                    <i class="bi bi-person-vcard"></i>
+                                                </a>
+                                                <a href="?action=edit&id=<?php echo $member['id']; ?>" class="btn btn-sm btn-outline-primary" title="Üyeyi düzenle">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <a href="?action=delete&id=<?php echo $member['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu üyeyi silmek istediğinizden emin misiniz?')">
+                                                <a href="?action=delete&id=<?php echo $member['id']; ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu üyeyi silmek istediğinizden emin misiniz?')" title="Üyeyi sil">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
                                             </div>
