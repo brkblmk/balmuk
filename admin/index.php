@@ -2,6 +2,7 @@
 require_once '../config/database.php';
 require_once '../config/security.php';
 require_once '../config/performance.php';
+require_once 'includes/member-helpers.php';
 
 // Admin kontrolü
 if (!isset($_SESSION['admin_logged_in'])) {
@@ -11,6 +12,8 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Security check for admin session
 SecurityUtils::secureSession();
+
+ensureMemberManagementTables($pdo);
 
 // Check if session is expired (30 minutes)
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 1800)) {
@@ -32,22 +35,22 @@ try {
     // Aktif kampanyalar
     $active_campaigns = $pdo->query("SELECT COUNT(*) FROM campaigns WHERE is_active = 1 AND (end_date IS NULL OR end_date >= CURDATE())")->fetchColumn() ?? 0;
 
-    // Aylık gelir (randevular için packages tablosundan fiyat alınması)
+    // Gelir verileri (üye ödemeleri)
     $total_revenue_query = "
-        SELECT COALESCE(SUM(s.price), 0) as total
-        FROM appointments a
-        LEFT JOIN services s ON a.service_id = s.id
-        WHERE a.status = 'completed'
-        AND MONTH(a.appointment_date) = MONTH(CURDATE())
-        AND YEAR(a.appointment_date) = YEAR(CURDATE())
+        SELECT COALESCE(SUM(amount), 0) as total
+        FROM member_payments
+        WHERE YEAR(payment_date) = YEAR(CURDATE())
+        AND MONTH(payment_date) = MONTH(CURDATE())
     ";
     $total_revenue = $pdo->query($total_revenue_query)->fetchColumn() ?? 0;
+    $last_30_revenue = $pdo->query("SELECT COALESCE(SUM(amount),0) FROM member_payments WHERE payment_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)")->fetchColumn() ?? 0;
 
     $stats = [
         'total_members' => $total_members,
         'today_appointments' => $today_appointments,
         'active_campaigns' => $active_campaigns,
-        'total_revenue' => $total_revenue
+        'total_revenue' => $total_revenue,
+        'last_30_revenue' => $last_30_revenue
     ];
 
     // Dashboard yüklendiğini logla
@@ -66,7 +69,8 @@ try {
         'total_members' => 0,
         'today_appointments' => 0,
         'active_campaigns' => 0,
-        'total_revenue' => 0
+        'total_revenue' => 0,
+        'last_30_revenue' => 0
     ];
 }
 
@@ -179,6 +183,7 @@ try {
                                     <div>
                                         <p class="text-muted mb-1">Aylık Gelir</p>
                                         <h3 class="mb-0">₺<?php echo number_format($stats['total_revenue'], 2); ?></h3>
+                                        <small class="text-muted">Son 30 gün: ₺<?php echo number_format($stats['last_30_revenue'], 2); ?></small>
                                     </div>
                                     <div class="icon-box bg-danger bg-opacity-10 text-danger">
                                         <i class="bi bi-graph-up-arrow"></i>

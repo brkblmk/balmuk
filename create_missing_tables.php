@@ -51,6 +51,48 @@ try {
     )");
     echo "✓ blog_categories tablosu oluşturuldu.\n";
 
+    // Blog Tags tablosu
+    $pdo->exec("CREATE TABLE IF NOT EXISTS blog_tags (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(100) NOT NULL,
+        slug VARCHAR(100) UNIQUE NOT NULL,
+        description TEXT,
+        color VARCHAR(20) DEFAULT '#6c757d',
+        is_active TINYINT(1) DEFAULT 1,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    )");
+    echo "✓ blog_tags tablosu oluşturuldu.\n";
+
+    // Blog Post Tags tablosu
+    $pdo->exec("CREATE TABLE IF NOT EXISTS blog_post_tags (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        post_id INT NOT NULL,
+        tag_id INT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE,
+        FOREIGN KEY (tag_id) REFERENCES blog_tags(id) ON DELETE CASCADE,
+        UNIQUE KEY unique_post_tag (post_id, tag_id)
+    )");
+    echo "✓ blog_post_tags tablosu oluşturuldu.\n";
+
+    // Blog Comments tablosu
+    $pdo->exec("CREATE TABLE IF NOT EXISTS blog_comments (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        post_id INT NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255),
+        comment TEXT NOT NULL,
+        ip_address VARCHAR(45),
+        is_approved TINYINT(1) DEFAULT 0,
+        parent_id INT DEFAULT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE,
+        FOREIGN KEY (parent_id) REFERENCES blog_comments(id) ON DELETE CASCADE
+    )");
+    echo "✓ blog_comments tablosu oluşturuldu.\n";
+
     // Blog Posts tablosu
     $pdo->exec("CREATE TABLE IF NOT EXISTS blog_posts (
         id INT PRIMARY KEY AUTO_INCREMENT,

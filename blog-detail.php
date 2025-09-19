@@ -17,7 +17,7 @@ try {
     // Blog yazısını çek
     $stmt = $pdo->prepare("
         SELECT bp.*, bc.name as category_name, bc.color as category_color, bc.slug as category_slug,
-               a.name as author_name
+               a.full_name as author_name
         FROM blog_posts bp
         LEFT JOIN blog_categories bc ON bp.category_id = bc.id
         LEFT JOIN admins a ON bp.author_id = a.id

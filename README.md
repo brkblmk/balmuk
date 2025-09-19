@@ -124,6 +124,8 @@ define('SMTP_PASSWORD', 'your-app-password');
 ### Veritabanı Ayarları
 `config/database.php` dosyasında bağlantı bilgilerinizi kontrol edin.
 
+Tam şema ve başlangıç verileri `sql/schema.sql` dosyasında yer alır. phpMyAdmin üzerinden içe aktarmak için önce veritabanını oluşturup ardından bu dosyayı çalıştırmanız yeterlidir; dosya gerekli tabloları, örnek yönetici hesabını ve temel site ayarlarını otomatik olarak hazırlar.
+
 ## 🎨 Geliştirme
 
 ### Linting ve Kod Kalitesi
