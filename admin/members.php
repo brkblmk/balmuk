@@ -11,6 +11,7 @@ if (!isset($_SESSION['admin_logged_in'])) {
 
 // Üyelik tablolarını garanti altına al
 ensureMemberManagementTables($pdo);
+SecurityUtils::generateCSRFToken();
 
 // İşlemler
 $action = $_GET['action'] ?? 'list';
@@ -20,44 +21,50 @@ $error = '';
 // Üye ekleme/güncelleme
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($action === 'add' || $action === 'edit') {
-        // SecurityUtils ile input sanitizasyonu
-        $member_code = SecurityUtils::sanitizeInput($_POST['member_code'] ?? 'PM' . time(), 'string');
-        $first_name = SecurityUtils::sanitizeInput($_POST['first_name'] ?? '', 'string');
-        $last_name = SecurityUtils::sanitizeInput($_POST['last_name'] ?? '', 'string');
-        $phone = SecurityUtils::sanitizeInput($_POST['phone'] ?? '', 'phone');
-        $email = SecurityUtils::sanitizeInput($_POST['email'] ?? '', 'email');
-        $birth_date = $_POST['birth_date'] ?? null;
-        $gender = SecurityUtils::sanitizeInput($_POST['gender'] ?? null, 'string');
-        $address = SecurityUtils::sanitizeInput($_POST['address'] ?? '', 'html');
-        $emergency_contact = SecurityUtils::sanitizeInput($_POST['emergency_contact'] ?? '', 'string');
-        $emergency_phone = SecurityUtils::sanitizeInput($_POST['emergency_phone'] ?? '', 'phone');
-        $health_conditions = SecurityUtils::sanitizeInput($_POST['health_conditions'] ?? '', 'html');
-        $goals = SecurityUtils::sanitizeInput($_POST['goals'] ?? '', 'html');
-        $membership_type = SecurityUtils::sanitizeInput($_POST['membership_type'] ?? '', 'string');
-        $membership_start = $_POST['membership_start'] ?? date('Y-m-d');
-        $membership_end = $_POST['membership_end'] ?? null;
-        $total_sessions = SecurityUtils::sanitizeInput($_POST['total_sessions'] ?? 0, 'int');
-        $remaining_sessions = SecurityUtils::sanitizeInput($_POST['remaining_sessions'] ?? 0, 'int');
-        $is_active = isset($_POST['is_active']) ? 1 : 0;
-        $notes = SecurityUtils::sanitizeInput($_POST['notes'] ?? '', 'html');
-        
-        try {
-            if ($action === 'add') {
-                $stmt = $pdo->prepare("INSERT INTO members (member_code, first_name, last_name, phone, email, birth_date, gender, address, emergency_contact, emergency_phone, health_conditions, goals, membership_type, membership_start, membership_end, total_sessions, remaining_sessions, is_active, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([$member_code, $first_name, $last_name, $phone, $email, $birth_date, $gender, $address, $emergency_contact, $emergency_phone, $health_conditions, $goals, $membership_type, $membership_start, $membership_end, $total_sessions, $remaining_sessions, $is_active, $notes]);
-                $message = 'Üye başarıyla eklendi!';
-                logActivity('create', 'members', $pdo->lastInsertId());
-            } else {
-                $id = $_POST['id'] ?? 0;
-                $stmt = $pdo->prepare("UPDATE members SET first_name = ?, last_name = ?, phone = ?, email = ?, birth_date = ?, gender = ?, address = ?, emergency_contact = ?, emergency_phone = ?, health_conditions = ?, goals = ?, membership_type = ?, membership_start = ?, membership_end = ?, total_sessions = ?, remaining_sessions = ?, is_active = ?, notes = ? WHERE id = ?");
-                $stmt->execute([$first_name, $last_name, $phone, $email, $birth_date, $gender, $address, $emergency_contact, $emergency_phone, $health_conditions, $goals, $membership_type, $membership_start, $membership_end, $total_sessions, $remaining_sessions, $is_active, $notes, $id]);
-                $message = 'Üye başarıyla güncellendi!';
-                logActivity('update', 'members', $id);
+        $csrfToken = $_POST['csrf_token'] ?? '';
+
+        if (!SecurityUtils::verifyCSRFToken($csrfToken)) {
+            $error = 'Güvenlik doğrulaması başarısız. Lütfen formu tekrar gönderin.';
+        } else {
+            // SecurityUtils ile input sanitizasyonu
+            $member_code = SecurityUtils::sanitizeInput($_POST['member_code'] ?? 'PM' . time(), 'string');
+            $first_name = SecurityUtils::sanitizeInput($_POST['first_name'] ?? '', 'string');
+            $last_name = SecurityUtils::sanitizeInput($_POST['last_name'] ?? '', 'string');
+            $phone = SecurityUtils::sanitizeInput($_POST['phone'] ?? '', 'phone');
+            $email = SecurityUtils::sanitizeInput($_POST['email'] ?? '', 'email');
+            $birth_date = $_POST['birth_date'] ?? null;
+            $gender = SecurityUtils::sanitizeInput($_POST['gender'] ?? null, 'string');
+            $address = SecurityUtils::sanitizeInput($_POST['address'] ?? '', 'html');
+            $emergency_contact = SecurityUtils::sanitizeInput($_POST['emergency_contact'] ?? '', 'string');
+            $emergency_phone = SecurityUtils::sanitizeInput($_POST['emergency_phone'] ?? '', 'phone');
+            $health_conditions = SecurityUtils::sanitizeInput($_POST['health_conditions'] ?? '', 'html');
+            $goals = SecurityUtils::sanitizeInput($_POST['goals'] ?? '', 'html');
+            $membership_type = SecurityUtils::sanitizeInput($_POST['membership_type'] ?? '', 'string');
+            $membership_start = $_POST['membership_start'] ?? date('Y-m-d');
+            $membership_end = $_POST['membership_end'] ?? null;
+            $total_sessions = SecurityUtils::sanitizeInput($_POST['total_sessions'] ?? 0, 'int');
+            $remaining_sessions = SecurityUtils::sanitizeInput($_POST['remaining_sessions'] ?? 0, 'int');
+            $is_active = isset($_POST['is_active']) ? 1 : 0;
+            $notes = SecurityUtils::sanitizeInput($_POST['notes'] ?? '', 'html');
+
+            try {
+                if ($action === 'add') {
+                    $stmt = $pdo->prepare("INSERT INTO members (member_code, first_name, last_name, phone, email, birth_date, gender, address, emergency_contact, emergency_phone, health_conditions, goals, membership_type, membership_start, membership_end, total_sessions, remaining_sessions, is_active, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([$member_code, $first_name, $last_name, $phone, $email, $birth_date, $gender, $address, $emergency_contact, $emergency_phone, $health_conditions, $goals, $membership_type, $membership_start, $membership_end, $total_sessions, $remaining_sessions, $is_active, $notes]);
+                    $message = 'Üye başarıyla eklendi!';
+                    logActivity('create', 'members', $pdo->lastInsertId());
+                } else {
+                    $id = $_POST['id'] ?? 0;
+                    $stmt = $pdo->prepare("UPDATE members SET first_name = ?, last_name = ?, phone = ?, email = ?, birth_date = ?, gender = ?, address = ?, emergency_contact = ?, emergency_phone = ?, health_conditions = ?, goals = ?, membership_type = ?, membership_start = ?, membership_end = ?, total_sessions = ?, remaining_sessions = ?, is_active = ?, notes = ? WHERE id = ?");
+                    $stmt->execute([$first_name, $last_name, $phone, $email, $birth_date, $gender, $address, $emergency_contact, $emergency_phone, $health_conditions, $goals, $membership_type, $membership_start, $membership_end, $total_sessions, $remaining_sessions, $is_active, $notes, $id]);
+                    $message = 'Üye başarıyla güncellendi!';
+                    logActivity('update', 'members', $id);
+                }
+                header('Location: members.php?message=' . urlencode($message));
+                exit;
+            } catch (PDOException $e) {
+                $error = 'Hata: ' . $e->getMessage();
             }
-            header('Location: members.php?message=' . urlencode($message));
-            exit;
-        } catch (PDOException $e) {
-            $error = 'Hata: ' . $e->getMessage();
         }
     }
 }
@@ -202,6 +209,7 @@ if (isset($_GET['message'])) {
                         </div>
                         <?php endif; ?>
                         <form method="POST">
+                            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>">
                             <?php if ($editData): ?>
                             <input type="hidden" name="id" value="<?php echo $editData['id']; ?>">
                             <?php endif; ?>
