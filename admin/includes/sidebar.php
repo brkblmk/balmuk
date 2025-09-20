@@ -46,19 +46,7 @@
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'testimonials.php' ? 'active' : ''; ?>" href="testimonials.php">
-                    <i class="bi bi-chat-quote-fill"></i>
-                    <span>Müşteri Yorumları</span>
-                </a>
-            </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'gallery.php' ? 'active' : ''; ?>" href="gallery.php">
-                    <i class="bi bi-images"></i>
-                    <span>Galeri</span>
-                </a>
-            </li>
             
             <li class="nav-item">
                 <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : ''; ?>" href="about.php">
@@ -125,12 +113,6 @@
                 </a>
             </li>
             
-            <li class="nav-item">
-                <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) == 'messages.php' ? 'active' : ''; ?>" href="messages.php">
-                    <i class="bi bi-chat-dots-fill"></i>
-                    <span>İletişim Mesajları</span>
-                </a>
-            </li>
             
             <li class="nav-section-title">Site Ayarları</li>
             
