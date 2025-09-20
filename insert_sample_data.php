@@ -55,6 +55,35 @@ try {
     ('Mehmet Demir', 'İş Adamı', 'Yoğun iş temposu nedeniyle uzun antrenman yapamıyordum. EMS ile 20 dakikada mükemmel sonuçlar alıyorum.', 5, 'EMS Slimming Paketi', '8 kg yağ yakımı', 1, 3)");
     echo "✓ Müşteri yorumları eklendi.\n";
 
+    // Members verisi
+    $pdo->exec("INSERT IGNORE INTO members (name, email, phone, birth_date, gender, membership_date) VALUES
+    ('Ali Yıldız', 'ali.yildiz@email.com', '0555 123 4567', '1990-05-15', 'male', '2024-01-15'),
+    ('Fatma Şahin', 'fatma.sahin@email.com', '0555 234 5678', '1988-08-22', 'female', '2024-02-01'),
+    ('Mehmet Kara', 'mehmet.kara@email.com', '0555 345 6789', '1992-12-10', 'male', '2024-02-15'),
+    ('Ayşe Demir', 'ayse.demir@email.com', '0555 456 7890', '1995-03-28', 'female', '2024-03-01'),
+    ('Mustafa Öz', 'mustafa.oz@email.com', '0555 567 8901', '1987-11-05', 'male', '2024-03-10')");
+    echo "✓ Örnek üyeler eklendi.\n";
+
+    // Packages verisi
+    $pdo->exec("INSERT IGNORE INTO packages (name, description, duration_days, price, session_count) VALUES
+    ('Temel Paket', '20 dakikalık tek seanlık EMS antrenmanı', 1, 150.00, 1),
+    ('Haftalık Paket', 'Haftada 2 seans olmak üzere 4 haftalık paket', 30, 500.00, 8),
+    ('Aylık Paket', 'Her gün seans hakkı ile aylık paket', 30, 1200.00, 30),
+    ('Premium Paket', 'Sınırsız seans hakkı ile 3 aylık paket', 90, 3000.00, 90),
+    ('VIP Paket', 'Özel antrenör eşliğinde sınırsız seans', 90, 4500.00, 90)");
+    echo "✓ Örnek paketler eklendi.\n";
+
+    // Member Payments verisi
+    $pdo->exec("INSERT IGNORE INTO member_payments (member_id, package_id, amount, currency, sessions_purchased, payment_date, payment_method, reference_code, notes) VALUES
+    (1, 2, 500.00, 'TRY', 8, '2024-01-15', 'card', 'REF001', 'İlk üyelik ödemesi'),
+    (2, 3, 1200.00, 'TRY', 30, '2024-02-01', 'online', 'REF002', 'Aylık paket ödemesi'),
+    (3, 1, 150.00, 'TRY', 1, '2024-02-15', 'cash', 'REF003', 'Tek seans ödemesi'),
+    (4, 4, 3000.00, 'TRY', 90, '2024-03-01', 'bank_transfer', 'REF004', 'Premium paket ödemesi'),
+    (5, 5, 4500.00, 'TRY', 90, '2024-03-10', 'card', 'REF005', 'VIP paket ödemesi'),
+    (1, 3, 1200.00, 'TRY', 30, '2024-08-01', 'online', 'REF006', 'Paket yenileme'),
+    (2, 2, 500.00, 'TRY', 8, '2024-08-15', 'card', 'REF007', 'Haftalık paket')");
+    echo "✓ Örnek ödemeler eklendi.\n";
+
     echo "\n✅ Tüm başlangıç verileri başarıyla eklendi!\n";
 
 } catch (PDOException $e) {
