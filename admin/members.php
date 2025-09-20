@@ -1,4 +1,8 @@
 <?php
+// Debug kodu
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once '../config/database.php';
 require_once '../config/security.php';
 require_once 'includes/member-helpers.php';
