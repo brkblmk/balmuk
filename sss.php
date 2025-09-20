@@ -233,15 +233,11 @@ try {
 
         .faq-answer {
             padding: 0 28px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
             border-top: 1px solid rgba(255, 215, 0, 0.1);
         }
 
         .faq-active .faq-answer {
-            max-height: 2000px; /* Artırılmış max-height */
             padding: 28px;
         }
 
@@ -596,33 +592,15 @@ try {
             once: true
         });
 
-        // FAQ Accordion Functionality with Bootstrap Events - Enhanced Version
+        // FAQ Accordion Functionality with Bootstrap Events
         document.addEventListener('show.bs.collapse', function (e) {
             const button = e.target.previousElementSibling;
             if (button && button.classList.contains('faq-question')) {
                 const card = button.closest('.faq-card');
                 const icon = button.querySelector('.faq-icon');
 
-                if (card) {
-                    card.classList.add('faq-active');
-                    // Close other accordions in the same group
-                    const accordion = card.closest('.accordion');
-                    if (accordion) {
-                        accordion.querySelectorAll('.faq-card.faq-active').forEach(otherCard => {
-                            if (otherCard !== card) {
-                                otherCard.classList.remove('faq-active');
-                                const otherButton = otherCard.querySelector('.faq-question');
-                                if (otherButton) {
-                                    otherButton.setAttribute('aria-expanded', 'false');
-                                    const otherIcon = otherButton.querySelector('.faq-icon');
-                                    if (otherIcon) otherIcon.classList.remove('rotate');
-                                }
-                            }
-                        });
-                    }
-                }
+                if (card) card.classList.add('faq-active');
                 if (icon) icon.classList.add('rotate');
-                button.setAttribute('aria-expanded', 'true');
             }
         });
 
@@ -634,30 +612,6 @@ try {
 
                 if (card) card.classList.remove('faq-active');
                 if (icon) icon.classList.remove('rotate');
-                button.setAttribute('aria-expanded', 'false');
-            }
-        });
-
-        // Enhanced Click Handler for FAQ Questions
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.faq-question')) {
-                e.preventDefault();
-                const button = e.target.closest('.faq-question');
-                const targetId = button.getAttribute('data-bs-target');
-                const target = document.querySelector(targetId);
-
-                if (target) {
-                    const collapse = new bootstrap.Collapse(target, {
-                        toggle: true
-                    });
-
-                    // Force toggle if needed
-                    if (target.classList.contains('show')) {
-                        collapse.hide();
-                    } else {
-                        collapse.show();
-                    }
-                }
             }
         });
 
