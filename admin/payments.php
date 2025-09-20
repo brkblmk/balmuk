@@ -26,10 +26,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         try {
             $memberId = (int)SecurityUtils::sanitizeInput($_POST['member_id'] ?? 0, 'int');
             $paymentDate = $_POST['payment_date'] ?? date('Y-m-d');
-            $packageId = !empty($_POST['package_id']) ? (int)SecurityUtils::sanitizeInput($_POST['package_id'], 'int') : null;
             $amount = (float)SecurityUtils::sanitizeInput($_POST['amount'] ?? 0, 'float');
             $currency = strtoupper(SecurityUtils::sanitizeInput($_POST['currency'] ?? 'TRY', 'string'));
-            $sessionsPurchased = (int)SecurityUtils::sanitizeInput($_POST['sessions_purchased'] ?? 0, 'int');
+
+            // Manuel giriş alanları
+            $deviceName = SecurityUtils::sanitizeInput($_POST['device_name'] ?? '', 'string');
+            $deviceModel = SecurityUtils::sanitizeInput($_POST['device_model'] ?? '', 'string');
+            $sessionCount = (int)SecurityUtils::sanitizeInput($_POST['session_count'] ?? 0, 'int');
+            $sessionPrice = (float)SecurityUtils::sanitizeInput($_POST['session_price'] ?? 0, 'float');
+            $totalSessions = (int)SecurityUtils::sanitizeInput($_POST['total_sessions'] ?? 0, 'int');
+            $category = SecurityUtils::sanitizeInput($_POST['category'] ?? '', 'string');
+            $paymentDescription = SecurityUtils::sanitizeInput($_POST['payment_description'] ?? '', 'html');
+
             $method = SecurityUtils::sanitizeInput($_POST['payment_method'] ?? '', 'string');
             $reference = SecurityUtils::sanitizeInput($_POST['reference_code'] ?? '', 'string');
             $notes = SecurityUtils::sanitizeInput($_POST['payment_notes'] ?? '', 'html');
@@ -40,12 +48,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->beginTransaction();
 
-            $stmt = $pdo->prepare('INSERT INTO member_payments (member_id, package_id, amount, currency, sessions_purchased, payment_date, payment_method, reference_code, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-            $stmt->execute([$memberId, $packageId ?: null, $amount, $currency ?: 'TRY', $sessionsPurchased, $paymentDate, $method ?: null, $reference ?: null, $notes ?: null]);
+            $stmt = $pdo->prepare('INSERT INTO member_payments (
+                member_id, amount, currency, payment_date, payment_method, reference_code, notes,
+                device_name, device_model, session_count, session_price, total_sessions, payment_description, category
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+            $stmt->execute([
+                $memberId, $amount, $currency ?: 'TRY', $paymentDate, $method ?: null, $reference ?: null, $notes ?: null,
+                $deviceName ?: null, $deviceModel ?: null, $sessionCount ?: null, $sessionPrice ?: null, $totalSessions ?: null, $paymentDescription ?: null, $category ?: null
+            ]);
 
-            if ($sessionsPurchased > 0) {
+            if ($totalSessions > 0) {
                 $update = $pdo->prepare('UPDATE members SET total_sessions = total_sessions + ?, remaining_sessions = remaining_sessions + ? WHERE id = ?');
-                $update->execute([$sessionsPurchased, $sessionsPurchased, $memberId]);
+                $update->execute([$totalSessions, $totalSessions, $memberId]);
             }
 
             $pdo->commit();
@@ -109,7 +123,7 @@ switch ($filterRange) {
         break;
 }
 
-$paymentsSql = 'SELECT mp.*, m.first_name, m.last_name, p.name AS package_name FROM member_payments mp LEFT JOIN members m ON m.id = mp.member_id LEFT JOIN packages p ON p.id = mp.package_id';
+$paymentsSql = 'SELECT mp.*, m.first_name, m.last_name FROM member_payments mp LEFT JOIN members m ON m.id = mp.member_id';
 
 if ($where) {
     $paymentsSql .= ' WHERE ' . implode(' AND ', $where);
@@ -282,7 +296,8 @@ try {
                                             <tr>
                                                 <th>Tarih</th>
                                                 <th>Üye</th>
-                                                <th>Paket</th>
+                                                <th>Cihaz/Model</th>
+                                                <th>Kategori</th>
                                                 <th>Tutar</th>
                                                 <th>Seans</th>
                                                 <th>Yöntem</th>
@@ -299,15 +314,16 @@ try {
                                                             <?php echo htmlspecialchars(trim(($payment['first_name'] ?? '') . ' ' . ($payment['last_name'] ?? ''))); ?>
                                                         </a>
                                                     </td>
-                                                    <td><?php echo htmlspecialchars($payment['package_name'] ?? '-'); ?></td>
+                                                    <td><?php echo htmlspecialchars($payment['device_name'] ?? '-'); ?><?php echo $payment['device_model'] ? ' (' . htmlspecialchars($payment['device_model']) . ')' : ''; ?></td>
+                                                    <td><?php echo htmlspecialchars($payment['category'] ?? '-'); ?></td>
                                                     <td>₺<?php echo number_format($payment['amount'], 2, ',', '.'); ?></td>
-                                                    <td><span class="badge bg-success-subtle text-success"><?php echo $payment['sessions_purchased']; ?></span></td>
+                                                    <td><span class="badge bg-success-subtle text-success"><?php echo $payment['session_count'] ?? 0; ?></span></td>
                                                     <td><?php echo htmlspecialchars($payment['payment_method'] ?? '-'); ?></td>
                                                     <td><?php echo htmlspecialchars($payment['reference_code'] ?? '-'); ?></td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             <?php else: ?>
-                                                <tr><td colspan="7" class="text-center text-muted py-4">Seçili kriterlere göre ödeme kaydı bulunamadı.</td></tr>
+                                                <tr><td colspan="8" class="text-center text-muted py-4">Seçili kriterlere göre ödeme kaydı bulunamadı.</td></tr>
                                             <?php endif; ?>
                                         </tbody>
                                     </table>
@@ -394,17 +410,34 @@ try {
                             <input type="number" step="0.01" name="amount" class="form-control" required>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Paket</label>
-                            <select name="package_id" class="form-select">
+                            <label class="form-label">Cihaz Adı</label>
+                            <input type="text" name="device_name" class="form-control" placeholder="örn: EMS 30G, Vibrasyon Cihazı">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Cihaz Modeli</label>
+                            <input type="text" name="device_model" class="form-control" placeholder="örn: Pro, Premium">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Kategori</label>
+                            <select name="category" class="form-select">
                                 <option value="">Seçiniz</option>
-                                <?php foreach ($packages as $package): ?>
-                                <option value="<?php echo $package['id']; ?>"><?php echo htmlspecialchars($package['name']); ?> (<?php echo $package['session_count']; ?> seans)</option>
-                                <?php endforeach; ?>
+                                <option value="EMS">EMS</option>
+                                <option value="Hizmet">Hizmet</option>
+                                <option value="Ürün">Ürün</option>
+                                <option value="Diğer">Diğer</option>
                             </select>
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Satılan Seans</label>
-                            <input type="number" name="sessions_purchased" class="form-control" required>
+                            <input type="number" name="session_count" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Seans Fiyatı (₺)</label>
+                            <input type="number" step="0.01" name="session_price" class="form-control">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Toplam Seans</label>
+                            <input type="number" name="total_sessions" class="form-control">
                         </div>
                         <div class="col-md-3">
                             <label class="form-label">Para Birimi</label>
@@ -421,6 +454,10 @@ try {
                         <div class="col-md-4">
                             <label class="form-label">Not</label>
                             <input type="text" name="payment_notes" class="form-control" placeholder="Kısa not">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Ödeme Açıklaması</label>
+                            <textarea name="payment_description" class="form-control" rows="2" placeholder="Detaylı açıklama, hangi cihaz kaç seansa satıldı vb."></textarea>
                         </div>
                     </div>
                 </div>

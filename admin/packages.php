@@ -21,48 +21,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
             $description = $_POST['description'] ?? '';
             $session_count = intval($_POST['session_count'] ?? 0);
-            $validity_days = intval($_POST['validity_days'] ?? 0);
+            $duration_days = intval($_POST['duration_days'] ?? 0);
             $price = floatval($_POST['price'] ?? 0);
-            $discount_percentage = floatval($_POST['discount_percentage'] ?? 0);
-            $is_trial = isset($_POST['is_trial']) ? 1 : 0;
-            $is_featured = isset($_POST['is_featured']) ? 1 : 0;
             $is_active = isset($_POST['is_active']) ? 1 : 0;
-            $sort_order = intval($_POST['sort_order'] ?? 0);
-            
-            // Features array oluştur
-            $features = [];
-            if (isset($_POST['features']) && is_array($_POST['features'])) {
-                $features = array_filter($_POST['features']);
-            }
-            $features_json = json_encode($features);
-            
+
             if ($formAction === 'create') {
                 $stmt = $pdo->prepare("
-                    INSERT INTO packages (name, description, session_count, validity_days, price, 
-                                        discount_percentage, features, is_trial, is_featured, is_active, sort_order)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    INSERT INTO packages (name, description, session_count, duration_days, price, is_active)
+                    VALUES (?, ?, ?, ?, ?, ?)
                 ");
                 $stmt->execute([
-                    $name, $description, $session_count, $validity_days, $price,
-                    $discount_percentage, $features_json, $is_trial, $is_featured, $is_active, $sort_order
+                    $name, $description, $session_count, $duration_days, $price, $is_active
                 ]);
-                
+
                 logActivity('Package created', 'packages', $pdo->lastInsertId());
                 $message = 'Paket başarıyla oluşturuldu!';
                 $messageType = 'success';
                 $action = 'list';
-                
+
             } else if ($formAction === 'update' && $packageId) {
                 $stmt = $pdo->prepare("
-                    UPDATE packages SET 
-                        name = ?, description = ?, session_count = ?, validity_days = ?, 
-                        price = ?, discount_percentage = ?, features = ?, is_trial = ?, 
-                        is_featured = ?, is_active = ?, sort_order = ?
+                    UPDATE packages SET
+                        name = ?, description = ?, session_count = ?, duration_days = ?,
+                        price = ?, is_active = ?
                     WHERE id = ?
                 ");
                 $stmt->execute([
-                    $name, $description, $session_count, $validity_days, $price,
-                    $discount_percentage, $features_json, $is_trial, $is_featured, $is_active, $sort_order,
+                    $name, $description, $session_count, $duration_days, $price, $is_active,
                     $packageId
                 ]);
                 
@@ -93,9 +78,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if ($action === 'list') {
     try {
         $stmt = $pdo->query("
-            SELECT * FROM packages 
-            WHERE is_active = 1 
-            ORDER BY sort_order ASC, created_at DESC
+            SELECT * FROM packages
+            WHERE is_active = 1
+            ORDER BY created_at DESC
         ");
         $packages = $stmt->fetchAll();
     } catch (PDOException $e) {
@@ -109,14 +94,11 @@ if ($action === 'edit' && $packageId) {
         $stmt = $pdo->prepare("SELECT * FROM packages WHERE id = ?");
         $stmt->execute([$packageId]);
         $package = $stmt->fetch();
-        
+
         if (!$package) {
             $action = 'list';
             $message = 'Paket bulunamadı!';
             $messageType = 'danger';
-        } else {
-            // JSON features'ı array'e çevir
-            $package['features_array'] = json_decode($package['features'] ?? '[]', true) ?: [];
         }
     } catch (PDOException $e) {
         $action = 'list';
