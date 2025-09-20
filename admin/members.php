@@ -11,6 +11,10 @@ require_once 'includes/member-helpers.php';
 if (!isset($_SESSION['admin_logged_in'])) {
     header('Location: login.php');
     exit;
+// Debug kodu
+echo "<!-- Debug: Script başladı -->\n";
+echo "<!-- Debug: Session kontrolü: " . (isset($_SESSION['admin_logged_in']) ? 'true' : 'false') . " -->\n";
+echo "<!-- Debug: PDO kontrolü: " . (isset($pdo) ? 'true' : 'false') . " -->\n";
 }
 
 // Üyelik tablolarını garanti altına al
